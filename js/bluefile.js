@@ -200,7 +200,6 @@
         var low = dataView.getInt32(index + lowIndex, littleEndian);
         var rv = low + pow2(32) * high;
         if (rv >= MAX_INT) {
-            window.console.info("Int is bigger than JS can represent.");
             return Infinity;
         }
         return rv;
@@ -446,7 +445,6 @@
             var dic_index = {};
             var dict_keywords = {};
             var ii = 0;
-            window.buf = buf;
             buf = buf.slice(offset, buf.byteLength);
             var dvhdr = new DataView(buf);
             buf = ab2str(buf);
@@ -470,7 +468,6 @@
                         }
                     } else {
                         //Should never get here now.
-                        window.console.info("Unsupported keyword format " + format + " for tag " + tag);
                     }
                 }
                 if (typeof dic_index[tag] === "undefined") {
