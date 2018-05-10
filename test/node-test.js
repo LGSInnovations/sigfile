@@ -37,7 +37,7 @@ describe('sigfile.js', function() {
       for (var prop in keywords) {
           assert.equal(
               hdr.ext_header[prop],
-              keywords[prop],
+              keywords[prop]
           );
       }
     });
