@@ -44,7 +44,7 @@
      * @memberOf matfile
      * @private
      */
-    if(global.navigator){
+    if (global.navigator) {
         var iOS = (navigator.userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false);
     }
     // Descriptive text field
