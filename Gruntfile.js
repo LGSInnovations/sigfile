@@ -24,6 +24,13 @@ module.exports = function (grunt) {
             options: { '--web-security': 'no', '--local-to-remote-url-access': 'yes' },
             all: ['test/passfail.html']
         },
+        'mochaTest': {
+          test: {
+            options: {
+            },
+            src: ['test/node-test.js']
+          }
+        },
         'closure-compiler': {
             bluefile_debug: {
                 closurePath: 'support/google-closure-compiler',
@@ -150,11 +157,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.registerTask('build', ['jsbeautifier:check', 'jshint', 'browserify', 'replace']);
 
     // Check everything is good
-    grunt.registerTask('test', ['build', 'qunit']);
+    grunt.registerTask('test', ['build', 'qunit', 'mochaTest']);
     
     // Build a distributable release
     grunt.registerTask('dist', ['clean', 'test', 'closure-compiler', 'jsdoc', 'compress']);
