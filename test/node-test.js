@@ -8,6 +8,11 @@ describe('sigfile.js', function() {
       var sigfile = require("../js/sigfile");
       var BlueHeader = sigfile.bluefile.BlueHeader;
       var file = fs.readFileSync("./test/dat/keyword_test_file.tmp");
+// if the test is failing because of an invalid header, uncomment this
+// to see if it's fixed.
+//      for (var iii=0; iii<32; ++iii) {
+//        console.log(file[iii]);
+//      }
       hdr = new BlueHeader(file.buffer,{});
       assert.equal(hdr.type, 1000);
       assert.equal(hdr.format, 'SB');

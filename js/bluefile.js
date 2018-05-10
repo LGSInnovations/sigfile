@@ -345,8 +345,22 @@
             this.version = ab2str(this.buf.slice(0, 4));
             this.headrep = ab2str(this.buf.slice(4, 8));
             this.datarep = ab2str(this.buf.slice(8, 12));
-            var littleEndianHdr = (this.headrep === "EEEI");
-            var littleEndianData = (this.datarep === "EEEI");
+            var littleEndianHdr;
+            if (this.headrep === "IEEE") {
+                littleEndianHdr = false;
+            } else if (this.headrep === "EEEI") {
+                littleEndianHdr = true;
+            } else {
+                throw ("invalid headrep, is this a bluefile?" + this.headrep);
+            }
+            var littleEndianData;
+            if (this.datarep === "IEEE") {
+                littleEndianHdr = false;
+            } else if (this.datarep === "EEEI") {
+                littleEndianHdr = true;
+            } else {
+                throw ("invalid headrep, is this a bluefile?" + this.headrep);
+            }
             this.ext_start = dvhdr.getInt32(24, littleEndianHdr);
             this.ext_size = dvhdr.getInt32(28, littleEndianHdr);
             this.type = dvhdr.getUint32(48, littleEndianHdr);
@@ -445,20 +459,25 @@
             var dic_index = {};
             var dict_keywords = {};
             var ii = 0;
-            buf = buf.slice(offset, buf.byteLength);
-            var dvhdr = new DataView(buf);
-            buf = ab2str(buf);
+            var kbuf = buf.slice(offset, offset + lbuf);
+            if (kbuf.byteLength !== lbuf) {
+                // TODO consider allowing progress, reading only
+                // the keywords that are available
+                throw ("header specifies invalid ext_start/ext_size");
+            }
+            var dvhdr = new DataView(kbuf);
+            kbuf = ab2str(kbuf);
             while (ii < lbuf) {
                 idata = ii + 8;
                 lkey = dvhdr.getUint32(ii, littleEndian);
                 lextra = dvhdr.getInt16(ii + 4, littleEndian);
                 ltag = dvhdr.getInt8(ii + 6, littleEndian);
-                format = buf.slice(ii + 7, ii + 8);
+                format = kbuf.slice(ii + 7, ii + 8);
                 ldata = lkey - lextra;
                 itag = idata + ldata;
-                tag = buf.slice(itag, itag + ltag);
+                tag = kbuf.slice(itag, itag + ltag);
                 if (format === "A") {
-                    data = buf.slice(idata, idata + ldata);
+                    data = kbuf.slice(idata, idata + ldata);
                 } else {
                     if (_XM_TO_DATAVIEW[format]) {
                         if (typeof _XM_TO_DATAVIEW[format] === "string") {
