@@ -336,6 +336,7 @@
      */
     bluefile.BlueHeader = function(buf, options) {
         this.options = {
+            read_ext_header:true,
             ext_header_type: "dict"
         };
         update(this.options, options);
@@ -387,7 +388,7 @@
             this.data_size = dvhdr.getFloat64(40, littleEndianHdr);
             var ds = this.data_start;
             var de = this.data_start + this.data_size;
-            if (this.ext_size) {
+            if (this.ext_size && this.options.read_ext_header) {
                 this.ext_header = this.unpack_keywords(this.buf, this.ext_size, this.ext_start * 512, littleEndianHdr);
             }
             this.setData(this.buf, ds, de, littleEndianData);
