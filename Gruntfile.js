@@ -34,8 +34,9 @@ module.exports = function (grunt) {
         'closure-compiler': {
             bluefile_debug: {
                 closurePath: 'support/google-closure-compiler',
-                js: 'dist/bluefile.js',
+                js: 'js/bluefile.js',
                 jsOutputFile: 'dist/bluefile-debug.js',
+		maxBuffer: 500,
                 options: {
                     formatting: 'PRETTY_PRINT',
                     compilation_level: 'WHITESPACE_ONLY'
@@ -43,8 +44,9 @@ module.exports = function (grunt) {
             },
             matfile_debug: {
                 closurePath: 'support/google-closure-compiler',
-                js: 'dist/matfile.js',
+                js: 'js/matfile.js',
                 jsOutputFile: 'dist/matfile-debug.js',
+		maxBuffer: 500,
                 options: {
                     formatting: 'PRETTY_PRINT',
                     compilation_level: 'WHITESPACE_ONLY'
@@ -52,16 +54,18 @@ module.exports = function (grunt) {
             },
             bluefile_minimized: {
                 closurePath: 'support/google-closure-compiler',
-                js: 'dist/bluefile.js',
+                js: 'js/bluefile.js',
                 jsOutputFile: 'dist/bluefile-minimized.js',
+		maxBuffer: 500,
                 options: {
                     compilation_level: 'SIMPLE_OPTIMIZATIONS'
                 }
             },
             matfile_minimized: {
                 closurePath: 'support/google-closure-compiler',
-                js: 'dist/matfile.js',
+                js: 'js/matfile.js',
                 jsOutputFile: 'dist/matfile-minimized.js',
+		maxBuffer: 500,
                 options: {
                     compilation_level: 'SIMPLE_OPTIMIZATIONS'
                 }
@@ -121,7 +125,7 @@ module.exports = function (grunt) {
                         'js/bluefile.js',
                         'js/matfile.js',
                         'js/sigfile.js',
-                        'test/tests.js'
+			 'test/tests.js'
                 ],
                 options: {
                     mode: "VERIFY_ONLY",
@@ -134,7 +138,7 @@ module.exports = function (grunt) {
                         'js/bluefile.js',
                         'js/matfile.js',
                         'js/sigfile.js',
-                        'test/tests.js'
+			 'test/tests.js'
                 ],
                 options: {
                     indentSize: 4,

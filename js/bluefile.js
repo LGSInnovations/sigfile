@@ -180,6 +180,18 @@
         'D': Float64Array
     };
     /**
+     * Calculate 2^n
+     *
+     * If 31 > n >= 0 then a left-shift is used, otherwise Math.pow is used.
+     *
+     * @private
+     * @memberof bluefile
+     * @param   {number}
+     */
+    function pow2(n) {
+        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
+    }
+    /**
      * @memberof bluefile
      * @param   {array}     buf         Data bffer
      * @param number
@@ -272,18 +284,7 @@
         }
         return buf;
     }
-    /**
-     * Calculate 2^n
-     *
-     * If 31 > n >= 0 then a left-shift is used, otherwise Math.pow is used.
-     *
-     * @private
-     * @memberof bluefile
-     * @param   {number}
-     */
-    function pow2(n) {
-        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
-    }
+
     /**
      * Constructor for a BlueHeader that extracts paramters from the 512-byte
      * Bluefile binary header.  If the data segment of the bluefile is also
@@ -297,8 +298,8 @@
      *     - options that affect how the bluefile is read
      * @param {string} ["dict"] options.ext_header_type
      *     - if the BlueFile contains extended header keywords,
-     *       extract them either as a dictionary ("dict", "json", 
-     *       {}, "XMTable", "JSON", "DICT") or as a list of 
+     *       extract them either as a dictionary ("dict", "json",
+     *       {}, "XMTable", "JSON", "DICT") or as a list of
      *       key value pairs.  The extended header keywords
      *       will be accessible on the hdr.ext_header property
      *       after the file has been read.
@@ -317,10 +318,10 @@
      * @property {String} format - the BLUEFILE format, the format is a two character diagraph, such as SF.
      * @property {Number} timecode - absolute time reference for the file (in seconds since Jan 1st 1950)
      * @property {Number} xstart - relative offset for the first sample on the x-axis
-     * @property {Number} xdelta - delta between points on the x-axis 
+     * @property {Number} xdelta - delta between points on the x-axis
      * @property {Number} xunits - the unitcode for the x-axis (see m.UNITS)
      * @property {Number} ystart - relative offset for the first sample on the y-axis
-     * @property {Number} ydelta - delta between points on the y-axis 
+     * @property {Number} ydelta - delta between points on the y-axis
      * @property {Number} yunits - the unitcode for the y-axis (see m.UNITS)
      * @property {Number} subsize - the number of columns for a 2-D data file
      * @property {Number} data_start - byte offset for data
@@ -336,7 +337,7 @@
      */
     bluefile.BlueHeader = function(buf, options) {
         this.options = {
-            read_ext_header:true,
+            read_ext_header: true,
             ext_header_type: "dict"
         };
         update(this.options, options);
@@ -391,7 +392,9 @@
             if (this.ext_size && this.options.read_ext_header) {
                 this.ext_header = this.unpack_keywords(this.buf, this.ext_size, this.ext_start * 512, littleEndianHdr);
             }
-            this.setData(this.buf, ds, de, littleEndianData);
+            if (!this.options.hdronly) {
+                this.setData(this.buf, ds, de, littleEndianData);
+            }
         }
     };
 
@@ -622,8 +625,8 @@
      *     - options that affect how the bluefile is read
      * @param {string} ["dict"] options.ext_header_type
      *     - if the BlueFile contains extended header keywords,
-     *       extract them either as a dictionary ("dict", "json", 
-     *       {}, "XMTable", "JSON", "DICT") or as a list of 
+     *       extract them either as a dictionary ("dict", "json",
+     *       {}, "XMTable", "JSON", "DICT") or as a list of
      *       key value pairs.  The extended header keywords
      *       will be accessible on the hdr.ext_header property
      *       after the file has been read.
@@ -650,22 +653,43 @@
          */
         readheader: function readheader(theFile, onload) {
             var that = this;
-            var reader = new FileReader();
-            var blob = theFile.webkitSlice(0, 512); // Chrome specific
-            // Closure to capture the file information.
-            reader.onloadend = (function(theFile) {
-                return function(e) {
-                    if (e.target.error) {
-                        onload(null);
-                        return;
+            if (typeof document !== 'undefined' && typeof FileReader !== 'undefined') {
+                var reader = new FileReader();
+                var blob = theFile.webkitSlice(0, 512); // Chrome specific
+                // Closure to capture the file information.
+                reader.onloadend = (function(theFile) {
+                    return function(e) {
+                        if (e.target.error) {
+                            onload(null);
+                            return;
+                        }
+                        var rawhdr = reader.result;
+                        var hdr = new bluefile.BlueHeader(rawhdr, that.options);
+                        hdr.file = theFile;
+                        onload(hdr);
+                    };
+                })(theFile);
+                reader.readAsArrayBuffer(blob);
+            } else {
+                var Buffer = require('buffer').Buffer;
+                var fileStream = require('fs').createReadStream(theFile, {
+                    start: 0,
+                    end: 511
+                });
+                var buf;
+                var chunk;
+                fileStream.on('readable', function() {
+                    while ((chunk = fileStream.read()) != null) {
+                        buf = buf ? Buffer.concat([buf, chunk]) : chunk;
                     }
-                    var rawhdr = reader.result;
-                    var hdr = new bluefile.BlueHeader(rawhdr, that.options);
-                    hdr.file = theFile;
+                });
+
+                fileStream.on('end', function() {
+                    var hdr = new bluefile.BlueHeader(buf.buffer, that.options);
+                    hdr.file_name = theFile;
                     onload(hdr);
-                };
-            })(theFile);
-            reader.readAsArrayBuffer(blob);
+                });
+            }
         },
         /**
          * Read a local Bluefile on disk.

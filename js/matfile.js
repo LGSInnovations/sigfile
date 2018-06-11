@@ -267,6 +267,15 @@
 
     /**
      * @memberof matfile
+     * @param   {number}
+     * @private
+     */
+    function pow2(n) {
+        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
+    }
+
+    /**
+     * @memberof matfile
      * @param   {array}     buf         Data bffer
      * @param number
      * @param bool
@@ -346,15 +355,6 @@
 
     /**
      * @memberof matfile
-     * @param   {number}
-     * @private
-     */
-    function pow2(n) {
-        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
-    }
-
-    /**
-     * @memberof matfile
      * @param   {array}
      * @param   {number}
      * @param   {number}
@@ -429,7 +429,7 @@
             default:
                 window.console.warn(typeName + " not supported at thsi time");
                 break;
-                /* TODO:           
+                /* TODO:
                 case "miUINT64":
                     break;
                 case "miMATRIX":
