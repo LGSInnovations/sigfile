@@ -336,7 +336,7 @@
      */
     bluefile.BlueHeader = function(buf, options) {
         this.options = {
-            read_ext_header:true,
+            read_ext_header: true,
             ext_header_type: "dict"
         };
         update(this.options, options);
