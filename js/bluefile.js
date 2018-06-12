@@ -81,6 +81,8 @@
 (function() {
     'use strict';
 
+    var fs = require('fs');
+
     function update(dst, src) {
         for (var prop in src) {
             var val = src[prop];
@@ -651,7 +653,7 @@
          * @param {readCallback} onload
          *     - callback when the header has been read
          */
-        readheader: function readheader(theFile, onload) {
+        readheader: function readheader(theFile, onload, onerr) {
             var that = this;
             if (typeof document !== 'undefined' && typeof FileReader !== 'undefined') {
                 var reader = new FileReader();
@@ -664,15 +666,20 @@
                             return;
                         }
                         var rawhdr = reader.result;
-                        var hdr = new bluefile.BlueHeader(rawhdr, that.options);
-                        hdr.file = theFile;
-                        onload(hdr);
+                        try {
+                            var hdr = new bluefile.BlueHeader(rawhdr, that.options);
+                            hdr.file = theFile;
+                            onload(hdr);
+                        } catch (err) {
+                            throw err;
+                        }
+
                     };
                 })(theFile);
                 reader.readAsArrayBuffer(blob);
             } else {
                 var Buffer = require('buffer').Buffer;
-                var fileStream = require('fs').createReadStream(theFile, {
+                var fileStream = fs.createReadStream(theFile, {
                     start: 0,
                     end: 511
                 });
@@ -685,9 +692,14 @@
                 });
 
                 fileStream.on('end', function() {
-                    var hdr = new bluefile.BlueHeader(buf.buffer, that.options);
-                    hdr.file_name = theFile;
-                    onload(hdr);
+                    try {
+                        var hdr = new bluefile.BlueHeader(buf.buffer, that.options);
+                        hdr.file_name = theFile;
+                        onload(hdr);
+                    } catch (err) {
+                        onerr(err);
+                    }
+
                 });
             }
         },
