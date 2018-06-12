@@ -13,7 +13,7 @@ describe('sigfile.js', function() {
 //      for (var iii=0; iii<32; ++iii) {
 //        console.log(file[iii]);
 //      }
-      hdr = new BlueHeader(file.buffer,{});
+      hdr = new BlueHeader(file.buffer.slice(file.byteOffset, file.byteLength),{});
       assert.equal(hdr.type, 1000);
       assert.equal(hdr.format, 'SB');
       assert.equal(hdr.size, 0);
