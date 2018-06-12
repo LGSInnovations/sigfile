@@ -125,7 +125,7 @@ module.exports = function (grunt) {
                         'js/bluefile.js',
                         'js/matfile.js',
                         'js/sigfile.js',
-			 'test/tests.js'
+                        'test/tests.js'
                 ],
                 options: {
                     mode: "VERIFY_ONLY",
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
                         'js/bluefile.js',
                         'js/matfile.js',
                         'js/sigfile.js',
-			 'test/tests.js'
+                        'test/tests.js'
                 ],
                 options: {
                     indentSize: 4,
