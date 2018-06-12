@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "6.11.4"
+  - "10.1.0"
+
+services:
+  - docker
+
+before_install:
+  - rm -rf dist/*
+  - npm install -g grunt
+  - npm install -q
+script:
+  - grunt dist
+
+notifications:
+  email:
+    on_success: never
