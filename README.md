@@ -15,7 +15,7 @@ npm i sigfile
 
 ### Extracting the header from a Bluefile
 
-```
+```javascript
 var sigfile = require('sigfile');
 var fs = require('fs');
 
