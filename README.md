@@ -8,7 +8,7 @@ SigFile provides MATLAB file parsing and XMIDAS Bluefile parsing in JS.
 ## Installation
 
 ```
-npm install git+https://git@github.com/LGSinnovations/sigfile.git
+npm i sigfile
 ```
 
 ## Example
