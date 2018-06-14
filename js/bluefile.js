@@ -720,7 +720,7 @@
                                 })
                                 .catch(function(err) {
                                     fs.close(fd, function() {
-                                        onerr("promise reject:" + err);
+                                        onerr(err);
                                     });
                                 });
                             /* jshint ignore:end */
@@ -730,9 +730,9 @@
                             });
                         }
                     } catch (error) {
-                        onerr("except:" + error);
-                    } finally {
-                        fs.close(fd, function() {});
+                        fs.close(fd, function() {
+                            onerr(error);
+                        });
                     }
                 });
             }
