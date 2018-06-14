@@ -17,6 +17,7 @@ describe('sigfile.js', function() {
       var sigfile = require("../js/sigfile");
       var BlueHeader = sigfile.bluefile.BlueHeader;
       var file = fs.readFileSync("./test/dat/keyword_test_file.tmp");
+      console.log(file);
       console.log("BUFFER", file.buffer.slice(file.byteOffset, file.byteLength));
       var buf = file.buffer.slice(file.byteOffset, file.byteLength)
       console.log(ab2str(buf.slice(4, 8)));
