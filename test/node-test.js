@@ -1,6 +1,15 @@
 var chai = require('chai');
 var assert = chai.assert;
 
+function ab2str(buf) {
+    var uintbuf = new Uint8Array(buf);
+    var str = "";
+    for (var i = 0; i < uintbuf.length; i++) {
+        str += String.fromCharCode(uintbuf[i]);
+    }
+    return str;
+}
+
 describe('sigfile.js', function() {
   describe('keyword_test_file', function() {
     it('should load correct', function() {
@@ -8,7 +17,10 @@ describe('sigfile.js', function() {
       var sigfile = require("../js/sigfile");
       var BlueHeader = sigfile.bluefile.BlueHeader;
       var file = fs.readFileSync("./test/dat/keyword_test_file.tmp");
-      var hdr = new BlueHeader(file.buffer.slice(file.byteOffset, file.byteLength),{});
+      console.log("BUFFER", file.buffer.slice(file.byteOffset, file.byteLength));
+      var buf = file.buffer.slice(file.byteOffset, file.byteLength)
+      console.log(ab2str(buf.slice(4, 8)));
+      var hdr = new BlueHeader(buf, {});
       assert.equal(hdr.type, 1000);
       assert.equal(hdr.format, 'SB');
       assert.equal(hdr.size, 0);
