@@ -524,10 +524,10 @@
                 var fd = fs.openSync(file, 'r');
                 fs.read(fd, Buffer.alloc(that.ext_size), 0, that.ext_size, that.ext_start * 512, function(err, bytesread, buf) {
                     if (buf) {
-                        try{
-                          resolve(that.unpack_keywords(buf.buffer, that.ext_size, 0, that.headrep === "EEEI"));
+                        try {
+                            resolve(that.unpack_keywords(buf.buffer, that.ext_size, 0, that.headrep === "EEEI"));
                         } catch (err) {
-                          reject(err);
+                            reject(err);
                         }
                     } else {
                         reject("Buffer is empty");
@@ -704,36 +704,36 @@
                 })(theFile);
                 reader.readAsArrayBuffer(blob);
             } else {
-                const fd = fs.openSync(theFile, 'r');
+                var fd = fs.openSync(theFile, 'r');
                 fs.read(fd, Buffer.alloc(512), 0, 512, 0, function(err, bytesread, buf) {
-                  try {
-                      var hdr = new bluefile.BlueHeader(buf.buffer, that.options);
-                      hdr.file_name = theFile;
-                      if (hdr.ext_size && that.options.header_only) {
-                          /* jshint ignore:start */
-                          hdr.load_keywords(theFile)
-                              .then(function(keywords) {
-                                  fs.close(fd, function(){
-                                    hdr.ext_header = keywords;
-                                    onload(hdr);
-                                  });
-                              })
-                              .catch(function(err) {
-                                  fs.close(fd, function(){
-                                    onerr("promise reject:" + err);
-                                  });
-                              });
-                          /* jshint ignore:end */
-                      } else {
-                        fs.close(fd, function(){
-                          onload(hdr);
-                        });
-                      }
-                  } catch (err) {
-                      onerr("except:" + err);
-                  } finally {
-                    fs.close(fd, function(){});
-                  }
+                    try {
+                        var hdr = new bluefile.BlueHeader(buf.buffer, that.options);
+                        hdr.file_name = theFile;
+                        if (hdr.ext_size && that.options.header_only) {
+                            /* jshint ignore:start */
+                            hdr.load_keywords(theFile)
+                                .then(function(keywords) {
+                                    fs.close(fd, function() {
+                                        hdr.ext_header = keywords;
+                                        onload(hdr);
+                                    });
+                                })
+                                .catch(function(err) {
+                                    fs.close(fd, function() {
+                                        onerr("promise reject:" + err);
+                                    });
+                                });
+                            /* jshint ignore:end */
+                        } else {
+                            fs.close(fd, function() {
+                                onload(hdr);
+                            });
+                        }
+                    } catch (error) {
+                        onerr("except:" + error);
+                    } finally {
+                        fs.close(fd, function() {});
+                    }
                 });
             }
         },
