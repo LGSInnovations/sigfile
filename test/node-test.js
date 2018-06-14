@@ -8,7 +8,7 @@ describe('sigfile.js', function() {
       var sigfile = require("../js/sigfile");
       var BlueHeader = sigfile.bluefile.BlueHeader;
       var file = fs.readFileSync("./test/dat/keyword_test_file.tmp");
-      hdr = new BlueHeader(file.buffer.slice(file.byteOffset, file.byteLength),{});
+      var hdr = new BlueHeader(file.buffer.slice(file.byteOffset, file.byteLength),{});
       assert.equal(hdr.type, 1000);
       assert.equal(hdr.format, 'SB');
       assert.equal(hdr.size, 0);
