@@ -81,6 +81,7 @@
 (function() {
     'use strict';
 
+    var Buffer = require('buffer').Buffer;
     var fs = require('fs');
 
     function update(dst, src) {
@@ -359,9 +360,9 @@
             }
             var littleEndianData;
             if (this.datarep === "IEEE") {
-                littleEndianHdr = false;
+                littleEndianData = false;
             } else if (this.datarep === "EEEI") {
-                littleEndianHdr = true;
+                littleEndianData = true;
             } else {
                 throw ("invalid headrep, is this a bluefile?" + this.headrep);
             }
@@ -394,7 +395,7 @@
             if (this.ext_size && this.options.read_ext_header) {
                 this.ext_header = this.unpack_keywords(this.buf, this.ext_size, this.ext_start * 512, littleEndianHdr);
             }
-            if (!this.options.hdronly) {
+            if (!this.options.header_only) {
                 this.setData(this.buf, ds, de, littleEndianData);
             }
         }
@@ -515,6 +516,23 @@
                 }
             }
             return keywords;
+        },
+        load_keywords: function(file) {
+            var that = this;
+            /* jshint ignore:start */
+            return new Promise(function(resolve, reject) {
+                var fd = fs.openSync(file, 'r');
+                fs.read(fd, Buffer.alloc(that.ext_size), 0, that.ext_size, that.ext_start * 512, function(err, bytesread, buf) {
+                    if (buf) {
+                        resolve(that.unpack_keywords(buf.buffer, that.ext_size, 0, that.headrep === "EEEI"));
+                    } else {
+                        reject("Buffer is empty");
+                    }
+                    fs.close(fd);
+                });
+            });
+            /* jshint ignore:end */
+
         },
         /**
          * Internal method to create typed array for the data based on the
@@ -655,6 +673,10 @@
          */
         readheader: function readheader(theFile, onload, onerr) {
             var that = this;
+            that.options = {
+                header_only: true,
+                read_ext_header: false
+            };
             if (typeof document !== 'undefined' && typeof FileReader !== 'undefined') {
                 var reader = new FileReader();
                 var blob = theFile.webkitSlice(0, 512); // Chrome specific
@@ -671,14 +693,14 @@
                             hdr.file = theFile;
                             onload(hdr);
                         } catch (err) {
-                            throw err;
+                            onerror(err);
                         }
 
                     };
                 })(theFile);
                 reader.readAsArrayBuffer(blob);
             } else {
-                var Buffer = require('buffer').Buffer;
+
                 var fileStream = fs.createReadStream(theFile, {
                     start: 0,
                     end: 511
@@ -695,7 +717,21 @@
                     try {
                         var hdr = new bluefile.BlueHeader(buf.buffer, that.options);
                         hdr.file_name = theFile;
-                        onload(hdr);
+                        if (hdr.ext_size && that.options.header_only) {
+                            fileStream.destroy();
+                            /* jshint ignore:start */
+                            hdr.load_keywords(theFile)
+                                .then(function(keywords) {
+                                    hdr.ext_header = keywords;
+                                    onload(hdr);
+                                })
+                                .catch(function(err) {
+                                    onerr(err);
+                                });
+                            /* jshint ignore:end */
+                        } else {
+                            onload(hdr);
+                        }
                     } catch (err) {
                         onerr(err);
                     }
@@ -703,6 +739,7 @@
                 });
             }
         },
+
         /**
          * Read a local Bluefile on disk.
          *
