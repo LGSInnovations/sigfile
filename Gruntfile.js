@@ -34,7 +34,7 @@ module.exports = function (grunt) {
         'closure-compiler': {
             bluefile_debug: {
                 closurePath: 'support/google-closure-compiler',
-                js: 'dist/bluefile.js',
+                js: 'js/bluefile.js',
                 jsOutputFile: 'dist/bluefile-debug.js',
                 options: {
                     formatting: 'PRETTY_PRINT',
@@ -43,7 +43,7 @@ module.exports = function (grunt) {
             },
             matfile_debug: {
                 closurePath: 'support/google-closure-compiler',
-                js: 'dist/matfile.js',
+                js: 'js/matfile.js',
                 jsOutputFile: 'dist/matfile-debug.js',
                 options: {
                     formatting: 'PRETTY_PRINT',
