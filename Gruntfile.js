@@ -38,6 +38,7 @@ module.exports = function (grunt) {
                 jsOutputFile: 'dist/bluefile-debug.js',
                 options: {
                     formatting: 'PRETTY_PRINT',
+                    maxBuffer: 500,
                     compilation_level: 'WHITESPACE_ONLY'
                 }
             },
@@ -47,6 +48,7 @@ module.exports = function (grunt) {
                 jsOutputFile: 'dist/matfile-debug.js',
                 options: {
                     formatting: 'PRETTY_PRINT',
+                    maxBuffer: 500,
                     compilation_level: 'WHITESPACE_ONLY'
                 }
             },
@@ -56,6 +58,7 @@ module.exports = function (grunt) {
                 jsOutputFile: 'dist/bluefile-minimized.js',
                 options: {
                     compilation_level: 'SIMPLE_OPTIMIZATIONS'
+                    maxBuffer: 500,
                 }
             },
             matfile_minimized: {
@@ -64,6 +67,7 @@ module.exports = function (grunt) {
                 jsOutputFile: 'dist/matfile-minimized.js',
                 options: {
                     compilation_level: 'SIMPLE_OPTIMIZATIONS'
+                    maxBuffer: 500,
                 }
             }
         },
