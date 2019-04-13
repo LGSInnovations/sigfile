@@ -180,6 +180,18 @@
         'D': Float64Array
     };
     /**
+     * Calculate 2^n
+     *
+     * If 31 > n >= 0 then a left-shift is used, otherwise Math.pow is used.
+     *
+     * @private
+     * @memberof bluefile
+     * @param   {number}
+     */
+    function pow2(n) {
+        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
+    }
+    /**
      * @memberof bluefile
      * @param   {array}     buf         Data bffer
      * @param number
@@ -271,18 +283,6 @@
             bufView[i] = str.charCodeAt(i);
         }
         return buf;
-    }
-    /**
-     * Calculate 2^n
-     *
-     * If 31 > n >= 0 then a left-shift is used, otherwise Math.pow is used.
-     *
-     * @private
-     * @memberof bluefile
-     * @param   {number}
-     */
-    function pow2(n) {
-        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
     }
     /**
      * Constructor for a BlueHeader that extracts paramters from the 512-byte

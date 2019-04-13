@@ -267,6 +267,15 @@
 
     /**
      * @memberof matfile
+     * @param   {number}
+     * @private
+     */
+    function pow2(n) {
+        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
+    }
+
+    /**
+     * @memberof matfile
      * @param   {array}     buf         Data bffer
      * @param number
      * @param bool
@@ -342,15 +351,6 @@
             bufView[i] = str.charCodeAt(i);
         }
         return buf;
-    }
-
-    /**
-     * @memberof matfile
-     * @param   {number}
-     * @private
-     */
-    function pow2(n) {
-        return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
     }
 
     /**
