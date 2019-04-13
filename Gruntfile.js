@@ -57,8 +57,8 @@ module.exports = function (grunt) {
                 js: 'dist/bluefile.js',
                 jsOutputFile: 'dist/bluefile-minimized.js',
                 options: {
-                    compilation_level: 'SIMPLE_OPTIMIZATIONS'
-                    maxBuffer: 500,
+                    compilation_level: 'SIMPLE_OPTIMIZATIONS',
+                    maxBuffer: 500
                 }
             },
             matfile_minimized: {
@@ -66,8 +66,8 @@ module.exports = function (grunt) {
                 js: 'dist/matfile.js',
                 jsOutputFile: 'dist/matfile-minimized.js',
                 options: {
-                    compilation_level: 'SIMPLE_OPTIMIZATIONS'
-                    maxBuffer: 500,
+                    compilation_level: 'SIMPLE_OPTIMIZATIONS',
+                    maxBuffer: 500
                 }
             }
         },
