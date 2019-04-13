@@ -36,9 +36,9 @@ module.exports = function (grunt) {
                 closurePath: 'support/google-closure-compiler',
                 js: 'js/bluefile.js',
                 jsOutputFile: 'dist/bluefile-debug.js',
+                maxBuffer: 500,
                 options: {
                     formatting: 'PRETTY_PRINT',
-                    maxBuffer: 500,
                     compilation_level: 'WHITESPACE_ONLY'
                 }
             },
@@ -46,28 +46,28 @@ module.exports = function (grunt) {
                 closurePath: 'support/google-closure-compiler',
                 js: 'js/matfile.js',
                 jsOutputFile: 'dist/matfile-debug.js',
+                maxBuffer: 500,
                 options: {
                     formatting: 'PRETTY_PRINT',
-                    maxBuffer: 500,
                     compilation_level: 'WHITESPACE_ONLY'
                 }
             },
             bluefile_minimized: {
                 closurePath: 'support/google-closure-compiler',
                 js: 'dist/bluefile.js',
+                maxBuffer: 500,
                 jsOutputFile: 'dist/bluefile-minimized.js',
                 options: {
                     compilation_level: 'SIMPLE_OPTIMIZATIONS',
-                    maxBuffer: 500
                 }
             },
             matfile_minimized: {
                 closurePath: 'support/google-closure-compiler',
                 js: 'dist/matfile.js',
                 jsOutputFile: 'dist/matfile-minimized.js',
+                maxBuffer: 500
                 options: {
                     compilation_level: 'SIMPLE_OPTIMIZATIONS',
-                    maxBuffer: 500
                 }
             }
         },
