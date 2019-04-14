@@ -16,10 +16,10 @@ npm i sigfile
 ### Extracting the header from a Bluefile
 
 ```javascript
-var sigfile = require('sigfile');
-var fs = require('fs');
+const sigfile = require('sigfile');
+const fs = require('fs');
 
-fs.readFile('../test/dat/ramp.tmp', function(err, buf) {
+fs.readFile('__tests__/dat/ramp.tmp', function(err, buf) {
     let header = new sigfile.bluefile.BlueHeader(buf.buffer);
     console.log(header);
 });

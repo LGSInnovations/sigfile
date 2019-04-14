@@ -29,14 +29,14 @@
 /* global require */
 
 (function() {
-    var version = "version-PLACEHOLDER";
-
-    var bluefile = require("./bluefile");
-    var matfile = require("./matfile");
+    const version = "version-PLACEHOLDER";
+    const bluefile = require("./bluefile");
+    const matfile = require("./matfile");
 
     module.exports = {
         'bluefile': bluefile,
-        'matfile': matfile
+        'matfile': matfile,
+        'version': version
     };
 
 }());
