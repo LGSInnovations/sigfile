@@ -11,7 +11,7 @@ before_install:
   - npm install -g grunt
   - npm install -q
 script:
-  - npm run build
+  - npm run build:prod
   - npm run test
 
 notifications:
