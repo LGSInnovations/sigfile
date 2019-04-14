@@ -45,7 +45,7 @@
      * @private
      */
     if (global.navigator) {
-        var iOS = (navigator.userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false);
+        const iOS = !!navigator.userAgent.match(/(iPad|iPhone|iPod)/i); // eslint-disable-line no-unused-vars
     }
     // Descriptive text field
     var headerTextBegin = 1;
@@ -57,7 +57,7 @@
 
     // Version field
     var versionOffsetBegin = 125;
-    var versionOffsetEnd = 126;
+    var versionOffsetEnd = 126; // eslint-disable-line no-unused-vars
 
     // Two character endian indicator. If the value reads "MI" then native computer
     // has written the file in Big Endian, so no byte translation must occur.
@@ -73,7 +73,7 @@
     // compressed files are currently UNREADABLE by this program as the file must be
     // decompressed before reading.
     var firstDataTypeOffsetBegin = 129;
-    var firstDataTypeOffsetEnd = 132;
+    var firstDataTypeOffsetEnd = 132; // eslint-disable-line no-unused-vars
 
     var numBytesOffsetBegin = 133;
     var numBytesOffsetEnd = 136;
@@ -99,7 +99,7 @@
         throw new Error('unknown endianness');
     }
 
-    function getDataField(fileData, firstByte, lastByte) {
+    function getDataField(fileData, firstByte, lastByte) { // eslint-disable-line no-unused-vars
         return fileData.slice(firstByte - 1, lastByte);
     }
 
@@ -108,7 +108,7 @@
      * @memberOf matfile
      * @private
      */
-    var ARRAY_BUFFER_ENDIANNESS = endianness();
+    const ARRAY_BUFFER_ENDIANNESS = endianness(); // eslint-disable-line no-unused-vars
 
     /**
      * @memberOf matfile
@@ -213,7 +213,7 @@
      * @memberOf matfilee
      * @private
      */
-    var _SPA = {
+    var _SPA = { // eslint-disable-line no-unused-vars
         'S': 1,
         'C': 2,
         'V': 3,
@@ -237,7 +237,7 @@
      * @memberOf bluefile
      * @private
      */
-    var _BPS = {
+    var _BPS = { // eslint-disable-line no-unused-vars
         'P': 0.125,
         'A': 1,
         'O': 1,
@@ -253,7 +253,7 @@
      * @memberOf bluefile
      * @private
      */
-    var _XM_TO_TYPEDARRAY = {
+    var _XM_TO_TYPEDARRAY = { // eslint-disable-line no-unused-vars
         'P': null,
         'A': null,
         'O': Uint8Array,
@@ -344,7 +344,7 @@
      * @param   {string}
      * @private
      */
-    function str2ab(str) {
+    function str2ab(str) { // eslint-disable-line no-unused-vars
         var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
         var bufView = new Uint16Array(buf);
         for (var i = 0, strLen = str.length; i < strLen; i++) {
@@ -367,7 +367,7 @@
         // TODO: big endian implemenation
 
         var outArr = [];
-        var dv = new DataView(arrayBuff, startByte, byteLength);
+        var dv = new DataView(arrayBuff, startByte, byteLength); // eslint-disable-line no-unused-vars
 
         var array;
         if (type === "miINT8") {
@@ -451,7 +451,7 @@
      * @memberof matfile
      * @param   {array}     buf         Data bffer
      */
-    function MatHeader(buf, options) {
+    function MatHeader(buf, options) { // eslint-disable-line no-unused-vars
         this.file = null;
         this.file_name = null;
         this.buf = buf;
@@ -478,7 +478,7 @@
             this.dataTypeName = dataTypeNames[this.dataType].name;
             this.arraySize = dvhdr.getUint32(numBytesOffsetBegin - 1, littleEndianHdr);
 
-            var beginArray = numBytesOffsetEnd + 1;
+            var beginArray = numBytesOffsetEnd + 1; // eslint-disable-line no-unused-vars
 
             // Start reading the file linearly from beginning and inc index as you go...
             var currIndex = numBytesOffsetEnd + 1;
@@ -488,7 +488,7 @@
             currIndex += 4;
 
             // bytes per ``typeName``
-            var flagLength = getDataWithType(dvhdr, typeName, currIndex - 1, littleEndianData);
+            var flagLength = getDataWithType(dvhdr, typeName, currIndex - 1, littleEndianData); // eslint-disable-line no-unused-vars
             currIndex += typeSize;
 
             // Array flags
@@ -500,13 +500,13 @@
             currIndex += typeSize;
 
             // TODO: use flags for future implementation
-            var complexFlag = arrayFlag & 0x80;
-            var globalFlag = arrayFlag & 0x40;
-            var logicalFlag = arrayFlag & 0x20;
+            var complexFlag = arrayFlag & 0x80; // eslint-disable-line no-unused-vars
+            var globalFlag = arrayFlag & 0x40; // eslint-disable-line no-unused-vars
+            var logicalFlag = arrayFlag & 0x20; // eslint-disable-line no-unused-vars
 
             // Find array class
             var arrayClassNum = arrayFlag & 0xF;
-            var arrayClassName = arrayClassNames[arrayClassNum];
+            var arrayClassName = arrayClassNames[arrayClassNum]; // eslint-disable-line no-unused-vars
 
             // TODO: sparse array data format implementation: which uses next 4 bytes
             // Skip to next type field (array dimensions)
@@ -520,7 +520,7 @@
             var dimTypeSize = dataTypeNames[dimTypeNum].size;
 
             // Dimensions size:
-            var arrayDimTotalSize = dvhdr.getUint32(currIndex - 1, littleEndianData);
+            var arrayDimTotalSize = dvhdr.getUint32(currIndex - 1, littleEndianData); // eslint-disable-line no-unused-vars
             currIndex += 4;
 
             // Get number of rows
@@ -533,7 +533,7 @@
             }
 
             // Get number of columns
-            var cols = getDataWithType(dvhdr, dimTypeName, currIndex - 1, littleEndianData);
+            var cols = getDataWithType(dvhdr, dimTypeName, currIndex - 1, littleEndianData); // eslint-disable-line no-unused-vars
             currIndex += typeSize;
 
             // array name type
@@ -549,14 +549,14 @@
             }
 
             var arrayNameTypeName = dataTypeNames[arrayNameTypeNum].name;
-            var arrayNameTypeSize = dataTypeNames[arrayNameTypeNum].size;
+            var arrayNameTypeSize = dataTypeNames[arrayNameTypeNum].size; // eslint-disable-line no-unused-vars
 
             if (!small) {
                 nameSize = getDataWithType(dvhdr, arrayNameTypeName, currIndex - 1, littleEndianData);
                 currIndex += 4;
             }
 
-            var arrayName = ab2str(this.buf.slice(currIndex - 1, currIndex + nameSize - 1));
+            var arrayName = ab2str(this.buf.slice(currIndex - 1, currIndex + nameSize - 1)); // eslint-disable-line no-unused-vars
 
             // Pad to end of 64 bit word if necessary
             var rndUp;
@@ -650,10 +650,10 @@
                 }
                 return ret;
             })(),
-            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [null, ''])[1],
+            file: (a.pathname.match(/\/([^/?#]+)$/i) || [null, ''])[1],
             hash: a.hash.replace('#', ''),
-            path: a.pathname.replace(/^([^\/])/, '/$1'),
-            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [null, ''])[1],
+            path: a.pathname.replace(/^([^/])/, '/$1'),
+            relative: (a.href.match(/tps?:\/\/[^/]+(.+)/) || [null, ''])[1],
             segments: a.pathname.replace(/^\//, '').split('/')
         };
     }
@@ -759,8 +759,8 @@
             var oReq = new XMLHttpRequest();
             oReq.open("GET", href, true);
             oReq.responseType = "arraybuffer";
-            oReq.overrideMimeType('text\/plain; charset=x-user-defined');
-            oReq.onload = function(oEvent) {
+            oReq.overrideMimeType('text/plain; charset=x-user-defined');
+            oReq.onload = function(oEvent) { // eslint-disable-line no-unused-vars
                 if (oReq.readyState === 4) {
                     if ((oReq.status === 200) || (oReq.status === 0)) { // status = 0 is necessary for file URL
                         var arrayBuffer = null; // Note: not oReq.responseText
@@ -785,7 +785,7 @@
                 }
                 onload(null);
             };
-            oReq.onerror = function(oEvent) {
+            oReq.onerror = function(oEvent) { // eslint-disable-line no-unused-vars
                 onload(null);
             };
             oReq.send(null);

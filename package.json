@@ -7,10 +7,8 @@
   "main": "js/sigfile.js",
   "files": [
     "js",
-    "dist/bluefile-debug.js",
-    "dist/bluefile-minimized.js",
-    "dist/matfile-debug.js",
-    "dist/matfile-minimized.js"
+    "dist/sigfile.debug.js",
+    "dist/sigfile.min.js"
   ],
   "author": {
     "name": "LGS Innovations, Inc.",
@@ -31,26 +29,35 @@
     }
   ],
   "scripts": {
-    "test": "grunt test",
-    "publish": "grunt dist && npm publish"
+    "beautify": "gulp beautify",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "lint": "gulp lint",
+    "test": "gulp test",
+    "publish": "gulp dist && npm publish"
   },
   "dependencies": {},
   "devDependencies": {
+    "browserify": "^16.2.3",
     "chai": "^4.2.0",
-    "grunt": "^1.0.3",
-    "grunt-browserify": "^5.0.0",
-    "grunt-cli": "^1.3.2",
-    "grunt-closure-compiler": "^0.0.21",
-    "grunt-contrib-clean": "^2.0.0",
-    "grunt-contrib-compress": "^1.4.3",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-jshint": "^2.1.0",
-    "grunt-contrib-qunit": "^3.1.0",
-    "grunt-jsbeautifier": "^0.2.13",
-    "grunt-jsdoc": "^2.2.1",
-    "grunt-mocha-test": "^0.13.3",
-    "grunt-text-replace": "^0.4.0",
-    "mocha": "^6.1.3",
-    "qunitjs": "^2.4.1"
+    "del": "^4.1.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "google-closure-compiler": "^20190325.0.0",
+    "gulp": "^4.0.0",
+    "gulp-eslint": "^5.0.0",
+    "gulp-jest": "^4.0.2",
+    "gulp-jsbeautifier": "^3.0.0",
+    "gulp-jsdoc3": "^2.0.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-zip": "^4.2.0",
+    "jest": "^24.7.1",
+    "jest-cli": "^24.7.1",
+    "jshint": "^2.10.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }

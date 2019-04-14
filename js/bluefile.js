@@ -75,19 +75,20 @@
  */
 
 /* global module */
-/* global require */
 /* global global */
 
 (function() {
     'use strict';
 
     function update(dst, src) {
-        for (var prop in src) {
-            var val = src[prop];
-            if (typeof val === "object") { // recursive
-                update(dst[prop], val);
-            } else {
-                dst[prop] = val;
+        for (let prop in src) {
+            if (src.hasOwnProperty(prop)) {
+                let val = src[prop];
+                if (typeof val === "object") { // recursive
+                    update(dst[prop], val);
+                } else {
+                    dst[prop] = val;
+                }
             }
         }
         return dst; // return dst to allow method chaining
@@ -99,19 +100,19 @@
      * @memberOf bluefile
      * @private
      */
-    if (global.navigator !== undefined) {
-        var iOS = (navigator.userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false);
+    if (global !== undefined && global.navigator !== undefined) {
+        const iOS = !!navigator.userAgent.match(/(iPad|iPhone|iPod)/i); // eslint-disable-line no-unused-vars
     }
 
     // https://gist.github.com/TooTallNate/4750953
     /**
-     * @memberof bluefile
+     * @memberOf bluefile
      * @private
      */
     function endianness() {
-        var b = new ArrayBuffer(4);
-        var a = new Uint32Array(b);
-        var c = new Uint8Array(b);
+        const b = new ArrayBuffer(4);
+        const a = new Uint32Array(b);
+        const c = new Uint8Array(b);
         a[0] = 0xdeadbeef;
         if (c[0] === 0xef) {
             return 'LE';
@@ -125,12 +126,12 @@
      * @memberOf bluefile
      * @private
      */
-    var ARRAY_BUFFER_ENDIANNESS = endianness();
+    const ARRAY_BUFFER_ENDIANNESS = endianness();
     /**
      * @memberOf bluefile
      * @private
      */
-    var _SPA = {
+    const _SPA = {
         'S': 1,
         'C': 2,
         'V': 3,
@@ -153,7 +154,7 @@
      * @memberOf bluefile
      * @private
      */
-    var _BPS = {
+    const _BPS = {
         'P': 0.125,
         'A': 1,
         'O': 1,
@@ -168,7 +169,7 @@
      * @memberOf bluefile
      * @private
      */
-    var _XM_TO_TYPEDARRAY = {
+    const _XM_TO_TYPEDARRAY = {
         'P': null,
         'A': null,
         'O': Uint8Array,
@@ -186,21 +187,21 @@
      *
      * @private
      * @memberof bluefile
-     * @param   {number}
+     * @param   {number} n
      */
     function pow2(n) {
         return (n >= 0 && n < 31) ? (1 << n) : (pow2[n] || (pow2[n] = Math.pow(2, n)));
     }
     /**
      * @memberof bluefile
-     * @param   {array}     buf         Data bffer
-     * @param number
-     * @param bool
+     * @param   {ArrayBuffer}     dataView         Data bffer
+     * @param {number} index
+     * @param {bool} littleEndian
      * @private
      */
     function getInt64(dataView, index, littleEndian) {
-        var highIndex, lowIndex;
-        var MAX_INT = Math.pow(2, 53);
+        let highIndex, lowIndex;
+        const MAX_INT = Math.pow(2, 53);
         if (littleEndian) {
             highIndex = 4;
             lowIndex = 0;
@@ -208,9 +209,9 @@
             highIndex = 0;
             lowIndex = 4;
         }
-        var high = dataView.getInt32(index + highIndex, littleEndian);
-        var low = dataView.getInt32(index + lowIndex, littleEndian);
-        var rv = low + pow2(32) * high;
+        const high = dataView.getInt32(index + highIndex, littleEndian);
+        const low = dataView.getInt32(index + lowIndex, littleEndian);
+        const rv = low + pow2(32) * high;
         if (rv >= MAX_INT) {
             return Infinity;
         }
@@ -220,7 +221,7 @@
      * @memberOf bluefile
      * @private
      */
-    var _XM_TO_DATAVIEW = {
+    const _XM_TO_DATAVIEW = {
         'P': null,
         'A': null,
         'O': "getUint8",
@@ -235,14 +236,14 @@
      * @memberOf bluefile
      * @private
      */
-    var _applySupportsTypedArray = true;
+    let _applySupportsTypedArray = true;
     try {
-        var uintbuf = new Uint8Array(new ArrayBuffer(4));
+        let uintbuf = new Uint8Array(new ArrayBuffer(4));
         uintbuf[0] = 66;
         uintbuf[1] = 76;
         uintbuf[2] = 85;
         uintbuf[3] = 69;
-        var test = String.fromCharCode.apply(null, uintbuf);
+        const test = String.fromCharCode.apply(null, uintbuf);
         if (test !== "BLUE") {
             _applySupportsTypedArray = false;
         }
@@ -254,16 +255,16 @@
      *
      * @private
      * @memberof bluefile
-     * @param   {array}     buf         Data bffer
+     * @param   {ArrayBuffer}     buf         Data bffer
      */
     function ab2str(buf) {
-        var uintbuf = new Uint8Array(buf);
+        const uintbuf = new Uint8Array(buf);
         // Firefox 3.6 nor iOS devices can use ArrayBuffers with .apply
         if (_applySupportsTypedArray) {
             return String.fromCharCode.apply(null, uintbuf);
         } else {
-            var str = "";
-            for (var i = 0; i < uintbuf.length; i++) {
+            let str = "";
+            for (let i = 0; i < uintbuf.length; i++) {
                 str += String.fromCharCode(uintbuf[i]);
             }
             return str;
@@ -274,12 +275,12 @@
      *
      * @private
      * @memberof bluefile
-     * @param   {string}
+     * @param {string} str
      */
-    function str2ab(str) {
-        var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
-        var bufView = new Uint16Array(buf);
-        for (var i = 0, strLen = str.length; i < strLen; i++) {
+    function str2ab(str) { // eslint-disable-line no-unused-vars
+        const buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
+        let bufView = new Uint16Array(buf);
+        for (let i = 0, strLen = str.length; i < strLen; i++) {
             bufView[i] = str.charCodeAt(i);
         }
         return buf;
@@ -291,11 +292,11 @@
      * via the dview property.
      *
      * @memberof bluefile
-     * @param {array} buf
+     * @param {ArrayBuffer} buf
      *   - An existing ArrayBuffer of Bluefile data.
      * @param {Object} options
      *     - options that affect how the bluefile is read
-     * @param {string} ["dict"] options.ext_header_type
+     * @param {string} ext_header_type ["dict"] options.ext_header_type
      *     - if the BlueFile contains extended header keywords,
      *       extract them either as a dictionary ("dict", "json", 
      *       {}, "XMTable", "JSON", "DICT") or as a list of 
@@ -342,11 +343,11 @@
         update(this.options, options);
         this.buf = buf;
         if (this.buf != null) {
-            var dvhdr = new DataView(this.buf);
+            let dvhdr = new DataView(this.buf);
             this.version = ab2str(this.buf.slice(0, 4));
             this.headrep = ab2str(this.buf.slice(4, 8));
             this.datarep = ab2str(this.buf.slice(8, 12));
-            var littleEndianHdr;
+            let littleEndianHdr;
             if (this.headrep === "IEEE") {
                 littleEndianHdr = false;
             } else if (this.headrep === "EEEI") {
@@ -354,7 +355,7 @@
             } else {
                 throw ("invalid headrep, is this a bluefile?" + this.headrep);
             }
-            var littleEndianData;
+            let littleEndianData;
             if (this.datarep === "IEEE") {
                 littleEndianHdr = false;
             } else if (this.datarep === "EEEI") {
@@ -386,8 +387,8 @@
             }
             this.data_start = dvhdr.getFloat64(32, littleEndianHdr);
             this.data_size = dvhdr.getFloat64(40, littleEndianHdr);
-            var ds = this.data_start;
-            var de = this.data_start + this.data_size;
+            const ds = this.data_start;
+            const de = this.data_start + this.data_size;
             if (this.ext_size && this.options.read_ext_header) {
                 this.ext_header = this.unpack_keywords(this.buf, this.ext_size, this.ext_start * 512, littleEndianHdr);
             }
@@ -579,10 +580,10 @@
                 }
                 return ret;
             })(),
-            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [null, ''])[1],
+            file: (a.pathname.match(/\/([^/?#]+)$/i) || [null, ''])[1],
             hash: a.hash.replace('#', ''),
-            path: a.pathname.replace(/^([^\/])/, '/$1'),
-            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [null, ''])[1],
+            path: a.pathname.replace(/^([^/])/, '/$1'),
+            relative: (a.href.match(/tps?:\/\/[^/]+(.+)/) || [null, ''])[1],
             segments: a.pathname.replace(/^\//, '').split('/')
         };
     }
@@ -709,8 +710,8 @@
             var oReq = new XMLHttpRequest();
             oReq.open("GET", href, true);
             oReq.responseType = "arraybuffer";
-            oReq.overrideMimeType('text\/plain; charset=x-user-defined');
-            oReq.onload = function(oEvent) {
+            oReq.overrideMimeType('text/plain; charset=x-user-defined');
+            oReq.onload = function(oEvent) { // eslint-disable-line no-unused-vars
                 if (oReq.readyState === 4) {
                     if ((oReq.status === 200) || (oReq.status === 0)) { // status = 0 is necessary for file URL
                         var arrayBuffer = null; // Note: not oReq.responseText
@@ -735,7 +736,7 @@
                 }
                 onload(null);
             };
-            oReq.onerror = function(oEvent) {
+            oReq.onerror = function(oEvent) { // eslint-disable-line no-unused-vars
                 onload(null);
             };
             oReq.send(null);
