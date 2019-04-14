@@ -1,0 +1,19 @@
+{
+  "plugins": ["jest", "babel"],
+  "extends": [
+    "eslint:recommended",
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": 0
+  }
+}

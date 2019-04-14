@@ -23,20 +23,6 @@
  * under the License.
  */
 
-/*jslint nomen: true, browser: true, devel: true */
-
-/* global module */
-/* global require */
-
-(function() {
-    var version = "version-PLACEHOLDER";
-
-    var bluefile = require("./bluefile");
-    var matfile = require("./matfile");
-
-    module.exports = {
-        'bluefile': bluefile,
-        'matfile': matfile
-    };
-
-}());
+export { version } from '../package';
+export { default as bluefile } from './bluefile';
+// export { default as matfile } from './matfile';

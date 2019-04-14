@@ -11,7 +11,8 @@ before_install:
   - npm install -g grunt
   - npm install -q
 script:
-  - grunt dist
+  - npm run build
+  - npm run test
 
 notifications:
   email:
