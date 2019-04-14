@@ -4,7 +4,7 @@
 var bluefile = require('../js/bluefile.js');
 var fs = require('fs');
 
-fs.readFile('../test/dat/ramp.tmp', function(err, buf) {
+fs.readFile('../__tests__/dat/ramp.tmp', function(err, buf) {
     console.log('');
 
     var hdr = new bluefile.BlueHeader(buf.buffer);
