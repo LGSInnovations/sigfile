@@ -5,7 +5,7 @@ import { bluefile } from '../js/index';
 describe('keyword_test_file', () => {
     it('should load correctly', () => {
         const BlueHeader = bluefile.BlueHeader;
-        readFile("./dat/keyword_test_file.tmp", (err, data) => {
+        readFile("./__tests__/dat/keyword_test_file.tmp", (err, data) => {
             if (err) {
                 throw err;
             }
