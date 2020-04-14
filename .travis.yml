@@ -9,7 +9,7 @@ services:
 
 before_install:
   - rm -rf dist/*
-  - npm install -g grunt
+  - npm install -g npx
   - npm install -q
 script:
   - npm run build:prod
