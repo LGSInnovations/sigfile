@@ -42,6 +42,7 @@
     "clean": "rm -rf ./dist",
     "eslint": "npx eslint . --fix --ignore-path .gitignore",
     "eslint:check": "npx eslint . --ignore-path .gitignore",
+    "generate-docs": "rm -rf ./doc/; npx jsdoc --configure .jsdoc.json --verbose",
     "lint": "npm run prettier && npm run eslint",
     "prettier": "npx prettier --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
     "prettier:check": "npx prettier --check --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
@@ -62,6 +63,8 @@
     "eslint-plugin-jest": "^23.8.2",
     "jest": "^25.3.0",
     "jest-cli": "^25.3.0",
+    "jsdoc": "^3.6.4",
+    "minami": "^1.2.3",
     "prettier": "^2.0.4",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"

@@ -1,5 +1,5 @@
 /**
- * @license
+ * @license apache-2.0
  * @file bluefile.src
  * Copyright (c) 2012-2020, LGS Innovations Inc., All rights reserved.
  *
