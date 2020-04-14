@@ -1,6 +1,6 @@
 /**
  * @license
- * File: sigfile.js
+ * File: sigfile.src
  * Copyright (c) 2012-2017, LGS Innovations Inc., All rights reserved.
  *
  * This file is part of SigFile.
@@ -24,5 +24,5 @@
  */
 
 export { version } from '../package';
-export { default as bluefile } from './bluefile';
-// export { default as matfile } from './matfile';
+export * from './bluefile';
+export * from './matfile';

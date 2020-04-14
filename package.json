@@ -28,30 +28,41 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  },
   "scripts": {
-    "beautify": "gulp beautify",
-    "build:prod": "npm run clean && npm run lint && ./node_modules/webpack/bin/webpack.js -p --progress --env=prod",
-    "build:dev": "npm run clean && npm run lint && ./node_modules/webpack/bin/webpack.js -d --progress --env=dev",
-    "clean": "rm -rf ./dist && mkdir ./dist",
-    "lint": "./node_modules/eslint/bin/eslint.js js/*",
-    "test": "jest --coverage",
-    "publish": "npm run build && npm publish"
+    "build:prod": "npm run clean && npm run lint && ./node_modules/webpack/bin/webpack.js -p --progress --mode=prod",
+    "build:dev": "npm run clean && npm run lint && ./node_modules/webpack/bin/webpack.js -d --progress --mode=dev",
+    "clean": "rm -rf ./dist",
+    "eslint": "npx eslint . --fix --ignore-path .gitignore",
+    "eslint:check": "npx eslint . --ignore-path .gitignore",
+    "lint": "npm run prettier && npm run eslint",
+    "prettier": "npx prettier --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
+    "prettier:check": "npx prettier --check --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
+    "publish": "npm run build && npm publish",
+    "test": "jest --coverage"
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.4.0",
-    "@babel/preset-env": "^7.4.3",
-    "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.5",
-    "babelify": "^10.0.0",
-    "browserify": "^16.2.3",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.5",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.3.0",
     "chai": "^4.2.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-jest": "^22.4.1",
-    "jest": "^24.7.1",
-    "jest-cli": "^24.7.1",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0"
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "jest": "^25.3.0",
+    "jest-cli": "^25.3.0",
+    "prettier": "^2.0.4",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }
