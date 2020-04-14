@@ -1,6 +1,6 @@
 /**
  * @license
- * File: sigfile.js
+ * File: sigfile.src
  * Copyright (c) 2012-2017, LGS Innovations Inc., All rights reserved.
  *
  * This file is part of SigFile.
@@ -23,20 +23,6 @@
  * under the License.
  */
 
-/*jslint nomen: true, browser: true, devel: true */
-
-/* global module */
-/* global require */
-
-(function() {
-    const version = "version-PLACEHOLDER";
-    const bluefile = require("./bluefile");
-    const matfile = require("./matfile");
-
-    module.exports = {
-        'bluefile': bluefile,
-        'matfile': matfile,
-        'version': version
-    };
-
-}());
+export { version } from '../package';
+export * from './bluefile';
+export * from './matfile';

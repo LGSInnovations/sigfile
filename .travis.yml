@@ -1,27 +1,17 @@
 language: node_js
 node_js:
-  - "6.11.4"
-  - "8.12.0"
-  - "10.1.0"
-
-cache:
-  directories:
-    - "node_modules"
+  - "10.13.0"
 
 services:
   - docker
 
 before_install:
   - rm -rf dist/*
-  - npm install -g gulp
+  - npm install -g npx
   - npm install -q
-
 script:
+  - npm run build:prod
   - npm run test
-
-after_script:
-  - pip install --user codecov
-  - codecov --file coverage/lcov.info --disable search
 
 notifications:
   email:
