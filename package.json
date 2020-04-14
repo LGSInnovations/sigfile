@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "version": "0.0.1",
   "homepage": "http://sigplot.lgsinnovations.com",
-  "main": "js/sigfile.js",
+  "main": "src/index.js",
   "files": [
     "js",
     "dist/sigfile.debug.js",
@@ -37,8 +37,8 @@
     ]
   },
   "scripts": {
-    "build:prod": "npm run clean && npm run lint && ./node_modules/webpack/bin/webpack.js -p --progress --mode=prod",
-    "build:dev": "npm run clean && npm run lint && ./node_modules/webpack/bin/webpack.js -d --progress --mode=dev",
+    "build:prod": "npm run clean && npm run lint && npx webpack --progress --mode=production",
+    "build:dev": "npm run clean && npm run lint && npx webpack --progress --mode=development",
     "clean": "rm -rf ./dist",
     "eslint": "npx eslint . --fix --ignore-path .gitignore",
     "eslint:check": "npx eslint . --ignore-path .gitignore",
@@ -46,7 +46,7 @@
     "prettier": "npx prettier --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
     "prettier:check": "npx prettier --check --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
     "publish": "npm run build && npm publish",
-    "test": "jest --coverage"
+    "test": "npx jest --coverage"
   },
   "dependencies": {},
   "devDependencies": {
@@ -55,6 +55,7 @@
     "@babel/preset-env": "^7.9.5",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.3.0",
+    "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
