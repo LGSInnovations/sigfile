@@ -345,7 +345,6 @@ export class BlueHeader {
     const dic_index = {};
     const dict_keywords = {};
     let ii = 0;
-    window.buf = buf;
     buf = buf.slice(offset, buf.byteLength);
     const dvhdr = new DataView(buf);
     buf = ab2str(buf);
