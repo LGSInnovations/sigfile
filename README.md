@@ -20,7 +20,7 @@ const sigfile = require('sigfile');
 const fs = require('fs');
 
 fs.readFile('__tests__/dat/ramp.tmp', function(err, buf) {
-    let header = new sigfile.bluefile.BlueHeader(buf.buffer);
+    let header = new sigfile.BlueHeader(buf.buffer);
     console.log(header);
 });
 ```
