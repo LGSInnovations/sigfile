@@ -8,9 +8,7 @@
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|doc)"
   },
-  "plugins": [
-    "plugins/markdown"
-  ],
+  "plugins": ["plugins/markdown"],
   "opts": {
     "destination": "./doc",
     "encoding": "utf8",
