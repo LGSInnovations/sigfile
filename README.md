@@ -11,6 +11,12 @@ SigFile provides MATLAB file parsing and XMIDAS Bluefile parsing in JS.
 npm i sigfile
 ```
 
+or
+
+```
+yarn add sigfile
+```
+
 ## Example
 
 ### Extracting the header from a Bluefile
@@ -20,7 +26,17 @@ const sigfile = require('sigfile');
 const fs = require('fs');
 
 fs.readFile('__tests__/dat/ramp.tmp', function(err, buf) {
-    let header = new sigfile.BlueHeader(buf.buffer);
+    const header = new sigfile.BlueHeader(buf.buffer);
     console.log(header);
 });
 ```
+
+or
+
+```javascript
+import { BlueHeader } from 'sigfile';
+
+fs.readFile('__tests__/dat/ramp.tmp', (err, buf) => {
+    const header = new sigfile.BlueHeader(buf.buffer);
+    console.log(header);
+});
