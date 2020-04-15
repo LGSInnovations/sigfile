@@ -2,7 +2,7 @@
   "name": "sigfile",
   "description": "Utilities to reading signal data from files",
   "license": "Apache-2.0",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "http://sigplot.lgsinnovations.com",
   "main": "src/index.js",
   "files": [
@@ -39,7 +39,9 @@
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.js"]
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
   },
   "scripts": {
     "build:prod": "npm run clean && npm run lint && npx webpack --progress --mode=production",
