@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>exports.BlueFileReader - Documentation</title>
+    <title>Home - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,10 +29,47 @@
 
 <div id="main">
     
-    <h1 class="page-title">exports.BlueFileReader</h1>
-    
 
     
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>SigFile</h1>
+<p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a> <a href="https://travis-ci.org/LGSInnovations/sigfile"><img src="https://travis-ci.org/LGSInnovations/sigfile.svg?branch=master" alt="Build Status"></a> <a href=".github/CONTRIBUTING.md#pull-requests"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a> <a href="https://badge.fury.io/js/sigfile"><img src="https://badge.fury.io/js/sigfile.svg" alt="npm version"></a> <a href="https://codecov.io/gh/LGSInnovations/sigfile"><img src="https://codecov.io/gh/LGSInnovations/sigfile/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p>SigFile provides MATLAB file parsing and XMIDAS Bluefile parsing in JS.</p>
+<h2>Installation</h2>
+<pre class="prettyprint source"><code>npm i sigfile
+</code></pre>
+<h2>Example</h2>
+<h3>Extracting the header from a Bluefile</h3>
+<pre class="prettyprint source lang-javascript"><code>const sigfile = require('sigfile');
+const fs = require('fs');
+
+fs.readFile('__tests__/dat/ramp.tmp', function(err, buf) {
+    let header = new sigfile.BlueHeader(buf.buffer);
+    console.log(header);
+});
+</code></pre></article>
+    </section>
+
+
+
+
+
 
 
 
@@ -42,9 +79,7 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="bluefile.html">bluefile</a>.</span>
-        
-        exports.BlueFileReader
+        bluefile.js
         </h2>
         
     
@@ -54,22 +89,26 @@
     <div class="container-overview">
     
         
-<div class="section-method">
+            <div class="description"><p>bluefile.src
+Copyright (c) 2012-2020, LGS Innovations Inc., All rights reserved.</p>
+<p>This file is part of SigFile.</p>
+<p>Licensed to the LGS Innovations (LGS) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  LGS licenses this file
+to you under the Apache License, Version 2.0 (the
+&quot;License&quot;); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at</p>
+<p>http://www.apache.org/licenses/LICENSE-2.0</p>
+<p>Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+&quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.</p></div>
+        
 
-    
-
-    <h4 class="name" id="exports.BlueFileReader"><span class="type-signature"></span>new exports.BlueFileReader<span class="signature">(options)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    <p>Bluefile Reader constructor.</p>
-</div>
-
-
-
+        
 
 
 <dl class="details">
@@ -95,13 +134,16 @@
     
 
     
+    <dt class="tag-license">License:</dt>
+    <dd class="tag-license"><ul class="dummy"><li>apache-2.0</li></ul></dd>
+    
 
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="bluefile.js.html">bluefile.js</a>, <a href="bluefile.js.html#line469">line 469</a>
+        <a href="bluefile.js.html">bluefile.js</a>, <a href="bluefile.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -113,144 +155,7 @@
 </dl>
 
 
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
         
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>Object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>options that affect how the bluefile is read</p>
-                
-                    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>ext_header_type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>string</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    "dict"
-                
-                </td>
-            
-
-            <td class="description last">
-                <p>if the BlueFile contains extended header keywords,
-extract them either as a dictionary (&quot;dict&quot;, &quot;json&quot;,
-{}, &quot;XMTable&quot;, &quot;JSON&quot;, &quot;DICT&quot;) or as a list of
-key value pairs.  The extended header keywords
-will be accessible on the hdr.ext_header property
-after the file has been read.</p>
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
     
     </div>
 
@@ -283,7 +188,7 @@ after the file has been read.</p>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Apr 15 2020 14:18:26 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Apr 15 2020 14:59:31 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
