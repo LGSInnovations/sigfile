@@ -34,9 +34,10 @@ fs.readFile('__tests__/dat/ramp.tmp', function(err, buf) {
 or
 
 ```javascript
+import { readFile } from 'fs';
 import { BlueHeader } from 'sigfile';
 
-fs.readFile('__tests__/dat/ramp.tmp', (err, buf) => {
+readFile('__tests__/dat/ramp.tmp', (err, buf) => {
     const header = new sigfile.BlueHeader(buf.buffer);
     console.log(header);
 });
