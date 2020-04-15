@@ -11,7 +11,7 @@ before_install:
   - npm install -q
 script:
   - npm run build:prod
-  - npm run test
+  - npm run test && bash <(curl -s https://codecov.io/bash)
 
 notifications:
   email:

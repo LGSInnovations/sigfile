@@ -36,6 +36,11 @@
       "@babel/plugin-proposal-class-properties"
     ]
   },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "collectCoverageFrom": ["src/**/*.js"]
+  },
   "scripts": {
     "build:prod": "npm run clean && npm run lint && npx webpack --progress --mode=production",
     "build:dev": "npm run clean && npm run lint && npx webpack --progress --mode=development",
@@ -58,6 +63,7 @@
     "babel-jest": "^25.3.0",
     "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
+    "coverage": "^0.4.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-jest": "^23.8.2",
