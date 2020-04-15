@@ -13,7 +13,7 @@ jobs:
         run: |
           npm install
           npm run generate-docs
-          ln -s ./docs/sigfile/$(grep -oP '(?<="version": ").*(?=",)' package.json) ./docs/sigfile/latest
+          ln -s ./doc/sigfile/$(grep -oP '(?<="version": ").*(?=",)' package.json) ./doc/sigfile/latest
 
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
