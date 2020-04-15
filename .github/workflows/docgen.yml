@@ -13,10 +13,12 @@ jobs:
         run: |
           npm install
           npm run generate-docs
-          ln -s ./doc/sigfile/$(grep -oP '(?<="version": ").*(?=",)' package.json) ./doc/sigfile/latest
-
+          ln -s  ./doc/sigfile/latest
+      - name: Set doc version
+        id: vars
+        run: echo ::set-output name=doc_version::$(grep -oP '(?<="version": ").*(?=",)' package.json)
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc/sigfile/latest/
+          publish_dir: ./doc/sigfile/${{ steps.vars.outputs.doc_version }}
