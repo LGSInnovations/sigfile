@@ -290,22 +290,12 @@ export class BlueHeader {
     }
     // TODO handle mismatch between host and data endianness using arrayBufferEndianness
     if (BlueHeader.ARRAY_BUFFER_ENDIANNESS === 'LE' && !littleEndian) {
-      throw (
-        'Not supported ' +
-        BlueHeader.ARRAY_BUFFER_ENDIANNESS +
-        ' ' +
-        littleEndian
-      );
+      throw `Not supported ${BlueHeader.ARRAY_BUFFER_ENDIANNESS} ${littleEndian}`;
     } else if (
       BlueHeader.ARRAY_BUFFER_ENDIANNESS === 'BE' &&
       this.littleEndianData
     ) {
-      throw (
-        'Not supported ' +
-        BlueHeader.ARRAY_BUFFER_ENDIANNESS +
-        ' ' +
-        littleEndian
-      );
+      throw `Not supported ${BlueHeader.ARRAY_BUFFER_ENDIANNESS} ${littleEndian}`;
     }
     if (buf) {
       if (offset && data_end) {
@@ -371,10 +361,8 @@ export class BlueHeader {
             );
           }
         } else {
-          //Should never get here now.
-          console.info(
-            'Unsupported keyword format ' + format + ' for tag ' + tag
-          );
+          // Should never get here now.
+          console.error(`Unsupported keyword format ${format} for tag ${tag}`);
         }
       }
       if (typeof dic_index[tag] === 'undefined') {
@@ -413,7 +401,7 @@ export class BlueHeader {
   createArray(buf, offset, length) {
     const TypedArray = BlueHeader._XM_TO_TYPEDARRAY[this.format[1]];
     if (TypedArray === undefined) {
-      throw 'unknown format ' + this.format[1];
+      throw `unknown format ${this.format[1]}`;
     }
     // backwards compatibility with some implementations of typed array
     // requires this
