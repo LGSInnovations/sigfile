@@ -24,6 +24,11 @@ function endianness() {
  * JS implementation of Python's dict.update method.
  * This updates object `dst` with the properties in `src`.
  *
+ * Note: This has been deprecated in v0.1.4 in favor
+ * of the faster `Object.assign(target, source)`.
+ *
+ * @deprecated since v0.1.4
+ *
  * @memberOf util
  * @param {object} dst  The object that will be updated
  * @param {object} src  The object whose properties will be added to `dst`

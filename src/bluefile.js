@@ -25,7 +25,7 @@
  */
 import BitArray from './bitarray';
 import { BaseFileReader } from './basefilereader';
-import { endianness, ab2str, getInt64, update } from './util';
+import { endianness, ab2str, getInt64 } from './util';
 
 /**
  * Bluefiles are a binary format directly supported by SigPlot.  A Bluefile consists of a 512-byte header
@@ -214,10 +214,7 @@ export class BlueHeader {
    * @property {DataView} dview - a Data
    */
   constructor(buf, options) {
-    this.options = {
-      ext_header_type: 'dict',
-    };
-    this.options = Object.assign(this.options, options);
+    this.options = Object.assign({ ext_header_type: 'dict' }, options);
     this.buf = buf;
     if (this.buf != null) {
       const dvhdr = new DataView(this.buf);

@@ -26,8 +26,4 @@ import * as bluefile from './bluefile';
 import * as matfile from './matfile';
 import { version } from '../package';
 
-export {
-  bluefile,
-  matfile,
-  version
-}
+export { bluefile, matfile, version };
