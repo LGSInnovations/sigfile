@@ -1,7 +1,7 @@
 import 'jest';
 import { expect } from 'chai';
 import { readFile } from 'fs';
-import { BlueHeader, BlueFileReader } from '../src/index';
+import { bluefile } from '../src/index';
 
 describe('bluefile module', () => {
   it('should load correctly from buffer', () => {
@@ -10,7 +10,7 @@ describe('bluefile module', () => {
         throw err;
       }
       const buf = data.buffer.slice(data.byteOffset, data.byteLength);
-      const hdr = new BlueHeader(buf, {});
+      const hdr = new bluefile.BlueHeader(buf, {});
       expect(hdr.type).to.equal(1000);
       expect(hdr.format).to.equal('SB');
       expect(hdr.size).to.equal(0);
@@ -37,7 +37,7 @@ describe('bluefile module', () => {
     });
   });
   it('should read bluefile int data from HTTP', () => {
-    const bfr = new BlueFileReader();
+    const bfr = new bluefile.BlueFileReader();
     bfr.read_http('dat/ramp.tmp', (hdr) => {
       expect(hdr.buf.byteLength).to.equal(2560);
       expect(hdr.dview.length).to.equal(1024);
@@ -74,7 +74,7 @@ describe('bluefile module', () => {
     });
   });
   it('should read bluefile ascii keywords from HTTP', () => {
-    const bfr = new BlueFileReader();
+    const bfr = new bluefile.BlueFileReader();
     bfr.read_http('dat/lots_of_keywords.tmp', (hdr) => {
       let i = 1;
       let strpad = '';
@@ -102,7 +102,7 @@ describe('bluefile module', () => {
     });
   });
   it('should read all keywords as JSON (default) from HTTP', () => {
-    const bfr = new BlueFileReader(); //defaults are to use dict
+    const bfr = new bluefile.BlueFileReader(); //defaults are to use dict
     bfr.read_http('dat/keyword_test_file.tmp', (hdr) => {
       let keywords = {
         B_TEST: 123,
@@ -122,7 +122,7 @@ describe('bluefile module', () => {
     });
   });
   it('should read all keywords as JSON (json) from HTTP', () => {
-    const bfr = new BlueFileReader({
+    const bfr = new bluefile.BlueFileReader({
       ext_header_type: 'json',
     });
     bfr.read_http('dat/keyword_test_file.tmp', (hdr) => {
@@ -144,7 +144,7 @@ describe('bluefile module', () => {
     });
   });
   it('should read all keywords as JSON (dict) from HTTP', () => {
-    const bfr = new BlueFileReader({
+    const bfr = new bluefile.BlueFileReader({
       ext_header_type: 'dict',
     });
     bfr.read_http('dat/keyword_test_file.tmp', (hdr) => {
@@ -166,7 +166,7 @@ describe('bluefile module', () => {
     });
   });
   it('should read all keywords as JSON ({}) from HTTP', () => {
-    const bfr = new BlueFileReader({
+    const bfr = new bluefile.BlueFileReader({
       ext_header_type: {},
     });
     bfr.read_http('dat/keyword_test_file.tmp', (hdr) => {
@@ -188,7 +188,7 @@ describe('bluefile module', () => {
     });
   });
   it('should read all keywords as Array (list) from HTTP', () => {
-    const bfr = new BlueFileReader({
+    const bfr = new bluefile.BlueFileReader({
       ext_header_type: 'list',
     });
     bfr.read_http('dat/keyword_test_file.tmp', (hdr) => {
@@ -241,7 +241,7 @@ describe('bluefile module', () => {
     });
   });
   it('should parse double data', () => {
-    const bfr = new BlueFileReader();
+    const bfr = new bluefile.BlueFileReader();
     bfr.read_http('dat/sin.tmp', (hdr) => {
       expect(hdr.buf.byteLength).to.equal(33280);
       expect(hdr.dview.length).to.equal(4096);
@@ -277,7 +277,7 @@ describe('bluefile module', () => {
     });
   });
   it('should parse complex float data', () => {
-    const bfr = new BlueFileReader();
+    const bfr = new bluefile.BlueFileReader();
     bfr.read_http('dat/pulse_cx.tmp', (hdr) => {
       expect(hdr.buf.byteLength).to.equal(131584);
       expect(hdr.dview.length).to.equal(400);
@@ -307,7 +307,7 @@ describe('bluefile module', () => {
     });
   });
   it('should parse scalar packed data', () => {
-    const bfr = new BlueFileReader();
+    const bfr = new bluefile.BlueFileReader();
     bfr.read_http('dat/scalarpacked.tmp', function (hdr) {
       expect(hdr.buf.byteLength).to.eql(1024);
       expect(hdr.dview.length).to.eql(1024);
