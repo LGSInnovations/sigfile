@@ -35,6 +35,9 @@ function update(dst, src) {
       const val = src[prop];
       if (typeof val === 'object') {
         // recursive
+        if (dst[prop] === undefined) {
+          dst[prop] = {};
+        }
         update(dst[prop], val);
       } else {
         dst[prop] = val;

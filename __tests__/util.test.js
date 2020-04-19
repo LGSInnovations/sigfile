@@ -45,6 +45,34 @@ describe('update', () => {
     });
   });
 
+  it('should handle nested objects by recursing', () => {
+    const dst = {
+      c: {
+        d: {
+          e: {
+            f: 5,
+          },
+        },
+      },
+    };
+    const src = {
+      a: 1,
+      b: 'foo',
+    };
+    const result = update(src, dst);
+    expect(result).to.eql({
+      a: 1,
+      b: 'foo',
+      c: {
+        d: {
+          e: {
+            f: 5,
+          },
+        },
+      },
+    });
+  });
+
   it('should handle the same object', () => {
     const dst = {
       a: 1,
