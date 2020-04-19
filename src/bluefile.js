@@ -217,7 +217,7 @@ export class BlueHeader {
     this.options = {
       ext_header_type: 'dict',
     };
-    update(this.options, options);
+    this.options = Object.assign(this.options, options);
     this.buf = buf;
     if (this.buf != null) {
       const dvhdr = new DataView(this.buf);
