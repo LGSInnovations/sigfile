@@ -13,11 +13,11 @@ function endianness() {
   a[0] = 0xdeadbeef;
   if (c[0] === 0xef) {
     return 'LE';
-  }
-  if (c[0] === 0xde) {
+  } else if (c[0] === 0xde) {
     return 'BE';
+  } else {
+    throw new Error('unknown endianness');
   }
-  throw new Error('unknown endianness');
 }
 
 /**
@@ -69,7 +69,7 @@ function getInt64(dataView, index, littleEndian) {
   const low = dataView.getInt32(index + lowIndex, littleEndian);
   const rv = low + pow2(32) * high;
   if (rv >= MAX_INT) {
-    console.info('Int is bigger than JS can represent.');
+    console.warn('Int is bigger than JS can represent.');
     return Infinity;
   } else {
     return rv;
