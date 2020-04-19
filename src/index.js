@@ -22,7 +22,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import * as bluefile from './bluefile';
+import * as matfile from './matfile';
+import { version } from '../package';
 
-export { version } from '../package';
-export * from './bluefile';
-export * from './matfile';
+export {
+  bluefile,
+  matfile,
+  version
+}
