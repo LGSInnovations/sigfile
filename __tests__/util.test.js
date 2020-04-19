@@ -153,12 +153,24 @@ describe('ab2str', () => {
     expect(result).to.eql('abc');
   });
 
-  it('should convert without apply with false', () => {
+  it('should convert with apply as false', () => {
     const buf = new ArrayBuffer(3);
     const arr = new Uint8Array(buf);
     arr[0] = 97;
     arr[1] = 98;
     arr[2] = 99;
+    ab2str._applySupportsTypedArray = false;
+    const result = ab2str(buf, false);
+    expect(result).to.eql('abc');
+  });
+
+  it('should convert with undefined _applySupportsTypedArray', () => {
+    const buf = new ArrayBuffer(3);
+    const arr = new Uint8Array(buf);
+    arr[0] = 97;
+    arr[1] = 98;
+    arr[2] = 99;
+    ab2str._applySupportsTypedArray = undefined;
     const result = ab2str(buf, false);
     expect(result).to.eql('abc');
   });
@@ -315,6 +327,17 @@ describe('text2buffer', () => {
       'abc',
       (buf) => {
         expect(buf.byteLength).to.eql(3);
+        done();
+      },
+      3
+    );
+  });
+
+  it('should handle larger text than blocksize', (done) => {
+    text2buffer(
+      'abcdef',
+      (buf) => {
+        expect(buf.byteLength).to.eql(6);
         done();
       },
       3
