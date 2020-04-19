@@ -2,13 +2,11 @@
   "name": "sigfile",
   "description": "Utilities to reading signal data from files",
   "license": "Apache-2.0",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "homepage": "http://sigplot.lgsinnovations.com",
-  "main": "src/index.js",
+  "main": "dist/sigfile.js",
   "files": [
-    "js",
-    "dist/sigfile.debug.js",
-    "dist/sigfile.min.js"
+    "dist"
   ],
   "author": {
     "name": "LGS Innovations, Inc.",
@@ -53,7 +51,6 @@
     "lint": "npm run prettier && npm run eslint",
     "prettier": "npx prettier --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
     "prettier:check": "npx prettier --check --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
-    "publish": "npm run build:prod && npm publish",
     "test": "npx jest --coverage"
   },
   "dependencies": {},
