@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { readFile } from 'fs';
 import { BlueHeader, BlueFileReader } from '../src/index';
 
-describe('keyword_test_file', () => {
-  it('should load correctly', () => {
+describe('bluefile module', () => {
+  it('should load correctly from buffer', () => {
     readFile('./__tests__/dat/keyword_test_file.tmp', (err, data) => {
       if (err) {
         throw err;
@@ -73,7 +73,7 @@ describe('keyword_test_file', () => {
       expect(hdr.dview[1023]).to.equal(1023);
     });
   });
-  it('should read bluefile ascii Keywords', () => {
+  it('should read bluefile ascii keywords from HTTP', () => {
     const bfr = new BlueFileReader();
     bfr.read_http('dat/lots_of_keywords.tmp', (hdr) => {
       let i = 1;
@@ -121,7 +121,7 @@ describe('keyword_test_file', () => {
       }
     });
   });
-  it('All Keywords as JSON (json) from HTTP', () => {
+  it('should read all keywords as JSON (json) from HTTP', () => {
     const bfr = new BlueFileReader({
       ext_header_type: 'json',
     });
@@ -143,7 +143,7 @@ describe('keyword_test_file', () => {
       }
     });
   });
-  it('All Keywords as JSON (dict)', () => {
+  it('should read all keywords as JSON (dict) from HTTP', () => {
     const bfr = new BlueFileReader({
       ext_header_type: 'dict',
     });
@@ -165,7 +165,7 @@ describe('keyword_test_file', () => {
       }
     });
   });
-  it('All Keywords as JSON ({})', () => {
+  it('should read all keywords as JSON ({}) from HTTP', () => {
     const bfr = new BlueFileReader({
       ext_header_type: {},
     });
@@ -187,7 +187,7 @@ describe('keyword_test_file', () => {
       }
     });
   });
-  it('All Keywords as Array (list)', () => {
+  it('should read all keywords as Array (list) from HTTP', () => {
     const bfr = new BlueFileReader({
       ext_header_type: 'list',
     });
@@ -240,7 +240,7 @@ describe('keyword_test_file', () => {
       }
     });
   });
-  it('double data', () => {
+  it('should parse double data', () => {
     const bfr = new BlueFileReader();
     bfr.read_http('dat/sin.tmp', (hdr) => {
       expect(hdr.buf.byteLength).to.equal(33280);
@@ -276,7 +276,7 @@ describe('keyword_test_file', () => {
       expect(hdr.dview[4095]).to.equal(0.9510565162951516);
     });
   });
-  it('complex float data', () => {
+  it('should parse complex float data', () => {
     const bfr = new BlueFileReader();
     bfr.read_http('dat/pulse_cx.tmp', (hdr) => {
       expect(hdr.buf.byteLength).to.equal(131584);
@@ -304,6 +304,44 @@ describe('keyword_test_file', () => {
       expect(hdr.yunits).to.equal(0);
       expect(hdr.data_start).to.equal(512.0);
       expect(hdr.data_size).to.equal(1600);
+    });
+  });
+  it('should parse scalar packed data', () => {
+    const bfr = new BlueFileReader();
+    bfr.read_http('dat/scalarpacked.tmp', function (hdr) {
+      expect(hdr.buf.byteLength).to.eql(1024);
+      expect(hdr.dview.length).to.eql(1024);
+      expect(hdr.file_name).to.eql('scalarpacked.tmp');
+      expect(hdr.version).to.eql('BLUE');
+      expect(hdr.headrep).to.eql('EEEI');
+      expect(hdr.datarep).to.eql('EEEI');
+      expect(hdr.timecode).to.eql(0);
+      expect(hdr.type).to.eql(1000);
+      expect(hdr['class']).to.eql(1);
+      expect(hdr.format).to.eql('SP');
+      expect(hdr.spa).to.eql(1);
+      expect(hdr.bps).to.eql(0.125);
+      expect(hdr.bpa).to.eql(0.125);
+      expect(hdr.ape).to.eql(1);
+      expect(hdr.bpe).to.eql(0.125);
+      expect(hdr.size).to.eql(1024);
+      expect(hdr.xstart).to.eql(0.0);
+      expect(hdr.xdelta).to.eql(1.0);
+      expect(hdr.xunits).to.eql(1);
+      expect(hdr.subsize).to.eql(1);
+      expect(hdr.ystart).to.be.undefined;
+      expect(hdr.ydelta).to.be.undefined;
+      expect(hdr.yunits).to.eql(0);
+      expect(hdr.data_start).to.eql(512.0);
+      expect(hdr.data_size).to.eql(128);
+      expect(hdr.dview.getBit(0)).to.eql(1);
+      expect(hdr.dview.getBit(1)).to.eql(1);
+      expect(hdr.dview.getBit(2)).to.eql(0);
+      expect(hdr.dview.getBit(3)).to.eql(0);
+      expect(hdr.dview.getBit(4)).to.eql(0);
+      expect(hdr.dview.getBit(5)).to.eql(1);
+      expect(hdr.dview.getBit(6)).to.eql(1);
+      expect(hdr.dview.getBit(7)).to.eql(1);
     });
   });
 });
