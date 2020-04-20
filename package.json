@@ -3,7 +3,7 @@
   "description": "Utilities to reading signal data from files",
   "license": "Apache-2.0",
   "version": "0.1.4",
-  "homepage": "http://sigplot.lgsinnovations.com",
+  "homepage": "https://lgsinnovations.github.io/sigfile",
   "main": "dist/sigfile.js",
   "files": [
     "dist"
@@ -11,7 +11,7 @@
   "author": {
     "name": "LGS Innovations, Inc.",
     "email": "sigplot@lgsinnovations.com",
-    "url": "http://www.lgsinnovations.com"
+    "url": "https://www.lgsinnovations.com"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,16 @@
       "type": "apache-2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
+  ],
+  "keywords": [
+    "sigplot",
+    "matlab",
+    "bluefile",
+    "dsp",
+    "digital-signal-processing",
+    "plotting",
+    "parsing",
+    "file-parser"
   ],
   "babel": {
     "presets": [
