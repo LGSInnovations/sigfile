@@ -89,6 +89,9 @@ describe('update', () => {
 });
 
 describe('getInt64', () => {
+  beforeEach(() => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
   it('should handle empty input', () => {
     const buffer = new ArrayBuffer(8);
     const dv = new DataView(buffer);
