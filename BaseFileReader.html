@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>matfile - Documentation</title>
+    <title>BaseFileReader - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">matfile</h1>
+    <h1 class="page-title">BaseFileReader</h1>
     
 
     
@@ -42,8 +42,10 @@
 <header>
     
         <h2>
-        matfile
+        BaseFileReader
         </h2>
+        
+            <div class="class-description"><p>Abstract class that should be extended</p></div>
         
     
 </header>
@@ -52,534 +54,20 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>MAT-files are a binary format directly supported by SigPlot.  A MAT-file consists of a 132-byte header
-followed by binary data.
-For more information on MAT-files, please visit https://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf</p>
-<h2>Offset   Name        Size    Type        Description</h2>
-<p>0        header     115   char[115]     Header
-116      subsys       7   char[7]
-124      version      2   int_2
-126      endianness   2   char[2]
-128      data_offset  4   int_4
-132      byte_offset  4   int_4</p></div>
-        
-
-        
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="matfile.exports.MatHeader.html">exports.MatHeader</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id="._MAT_TO_TYPEDARRAY"><span class="type-signature">(private, static) </span>_MAT_TO_TYPEDARRAY<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line62">line 62</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id=".ARRAY_BUFFER_ENDIANNESS"><span class="type-signature">(private, static) </span>ARRAY_BUFFER_ENDIANNESS<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id=".arrayClassNames"><span class="type-signature">(private, static) </span>arrayClassNames<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line159">line 159</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id=".dataTypeNames"><span class="type-signature">(private, static) </span>dataTypeNames<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line90">line 90</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id=".headerTextBegin"><span class="type-signature">(private, static) </span>headerTextBegin<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Descriptive text field</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line183">line 183</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id=".subsysOffsetBegin"><span class="type-signature">(private, static) </span>subsysOffsetBegin<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Subsystem data offset field</p>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line192">line 192</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-            
-<div class="section-members">
-<h4 class="name" id=".versionNames"><span class="type-signature">(private, static) </span>versionNames<span class="type-signature"></span></h4>
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line56">line 56</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-</div>
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
 <div class="section-method">
 
     
+    <h2>Constructor</h2>
+    
 
-    <h4 class="name" id="createArray"><span class="type-signature">(private, static) </span>MatHeader#createArray<span class="signature">(buf, offset, length, type)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BaseFileReader"><span class="type-signature"></span>new BaseFileReader<span class="signature">(options, header_class)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Get a JS array from MATLAB array</p>
+    <p>Constructs a file reader for specific file types</p>
 </div>
 
 
@@ -615,7 +103,7 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line403">line 403</a>
+        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -659,94 +147,42 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
 
         <tr>
             
-                <td class="name"><code>buf</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>ArrayBuffer</code></span>
+<span class="param-type"><code>object</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>header_class</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>BlueFileHeader</code></span>
 |
 
-<span class="param-type"><code>Array</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>number</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>length</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>number</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>string</code></span>
+<span class="param-type"><code>MatFileHeader</code></span>
 
 
             
@@ -782,17 +218,46 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
 
 
 </div>
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="BaseFileReader.html">BaseFileReader</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
         
             
 <div class="section-method">
 
     
 
-    <h4 class="name" id="setData"><span class="type-signature">(static) </span>MatHeader#setData<span class="signature">(buf, dvhdr, currIndex, littleEndian)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="_read"><span class="type-signature">(private) </span>_read<span class="signature">(theFile, onload, justHeader)</span><span class="type-signature"></span></h4>
 
     
 
 
+
+<div class="description">
+    <p>Internal method that will read a file or stop at the header</p>
+</div>
 
 
 
@@ -827,7 +292,7 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line437">line 437</a>
+        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -871,10 +336,15 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
 
         <tr>
             
-                <td class="name"><code>buf</code></td>
+                <td class="name"><code>theFile</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type"><code>File</code></span>
+
+
             
             </td>
 
@@ -883,7 +353,7 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
             
 
             <td class="description last">
-                
+                <p>a File object for the Bluefile or Matfile</p>
                 
             </td>
         </tr>
@@ -892,10 +362,15 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
 
         <tr>
             
-                <td class="name"><code>dvhdr</code></td>
+                <td class="name"><code>onload</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type"><code>function</code></span>
+
+
             
             </td>
 
@@ -904,7 +379,7 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
             
 
             <td class="description last">
-                
+                <p>callback when the header has been read</p>
                 
             </td>
         </tr>
@@ -913,10 +388,15 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
 
         <tr>
             
-                <td class="name"><code>currIndex</code></td>
+                <td class="name"><code>justHeader</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type"><code>boolean</code></span>
+
+
             
             </td>
 
@@ -925,7 +405,142 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
             
 
             <td class="description last">
+                <p>Whether or not to only read the header</p>
                 
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="read"><span class="type-signature"></span>read<span class="signature">(theFile, onload)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Read a local Bluefile or Matfile on disk.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line73">line 73</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>theFile</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>File</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>a File object for the Bluefile or Matfile</p>
                 
             </td>
         </tr>
@@ -934,10 +549,15 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
 
         <tr>
             
-                <td class="name"><code>littleEndian</code></td>
+                <td class="name"><code>onload</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type"><code>function</code></span>
+
+
             
             </td>
 
@@ -946,7 +566,329 @@ For more information on MAT-files, please visit https://www.mathworks.com/help/p
             
 
             <td class="description last">
+                <p>callback when the file has been read</p>
                 
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="read_http"><span class="type-signature"></span>read_http<span class="signature">(href, onload)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Read a Bluefile or Matfile from a URL</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line84">line 84</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>href</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>the URL for the Bluefile or Matfile</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onload</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>function</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>callback when the header has been read</p>
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="readheader"><span class="type-signature"></span>readheader<span class="signature">(theFile, onload)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Read only the header from a local {Blue,Mat}file.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line62">line 62</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>theFile</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>File</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>a File object for the Bluefile or Matfile</p>
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onload</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>function</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                <p>callback when the header has been read</p>
                 
             </td>
         </tr>

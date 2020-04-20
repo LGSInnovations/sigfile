@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>exports.MatHeader - Documentation</title>
+    <title>module.exports - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">exports.MatHeader</h1>
+    <h1 class="page-title">module.exports</h1>
     
 
     
@@ -42,10 +42,11 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="matfile.html">matfile</a>.</span>
-        
-        exports.MatHeader
+        module.exports
         </h2>
+        
+            <div class="class-description"><p>BitArray class implementing the JS <code>TypedArray</code> interface
+for a binary array.</p></div>
         
     
 </header>
@@ -57,15 +58,19 @@
 <div class="section-method">
 
     
+    <h2>Constructor</h2>
+    
 
-    <h4 class="name" id="exports.MatHeader"><span class="type-signature"></span>new exports.MatHeader<span class="signature">(buf)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="module.exports"><span class="type-signature"></span>new module.exports<span class="signature">(buf)</span><span class="type-signature"> &rarr; {<a href="BitArray.html">BitArray</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Create matfile header and attach data buffer</p>
+    <p>Constructor for <code>BitArray</code></p>
+<p>This allows you to provide either an <code>ArrayBuffer</code> with pre-existing
+data or a requested bit-size of the BitArray.</p>
 </div>
 
 
@@ -101,7 +106,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line229">line 229</a>
+        <a href="bitarray.js.html">bitarray.js</a>, <a href="bitarray.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -151,7 +156,10 @@
             <td class="type">
             
                 
-<span class="param-type"><code>array</code></span>
+<span class="param-type"><code>ArrayBuffer</code></span>
+|
+
+<span class="param-type"><code>number</code></span>
 
 
             
@@ -162,7 +170,8 @@
             
 
             <td class="description last">
-                <p>Data bffer</p>
+                <p>Either an existing buffer containing data
+or a number indicating the size of the BitArray</p>
                 
             </td>
         </tr>
@@ -184,7 +193,42 @@
 
 
 
+<div class="section-returns">
+<h5>Returns:</h5>
 
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="BitArray.html">BitArray</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Examples</h5>
+
+        <p class="code-caption">Setting up BitArray with requested number of bits</p>
+    
+    <pre class="prettyprint"><code>const arr = new BitArray(32);</code></pre>
+
+        <p class="code-caption">Setting up BitArray from another ArrayBuffer</p>
+    
+    <pre class="prettyprint"><code>const u8_arr = new Uint8Array([255, 230]);
+const arr = new BitArray(u8_arr.buffer);</code></pre>
+
+</div>
 
 </div>
     

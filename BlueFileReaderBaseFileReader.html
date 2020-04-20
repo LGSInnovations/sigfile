@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>exports.MatHeader - Documentation</title>
+    <title>BaseFileReader - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">exports.MatHeader</h1>
+    <h1 class="page-title">BaseFileReader</h1>
     
 
     
@@ -42,10 +42,12 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="matfile.html">matfile</a>.</span>
+            <span class="ancestors"><a href="bluefile.html">bluefile</a><a href="BlueFileReader.html">.exports.BlueFileReader</a>#</span>
         
-        exports.MatHeader
+        BaseFileReader
         </h2>
+        
+            <div class="class-description"><p>Abstract class that should be extended</p></div>
         
     
 </header>
@@ -57,15 +59,17 @@
 <div class="section-method">
 
     
+    <h2>Constructor</h2>
+    
 
-    <h4 class="name" id="exports.MatHeader"><span class="type-signature"></span>new exports.MatHeader<span class="signature">(buf)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BaseFileReader"><span class="type-signature"></span>new BaseFileReader<span class="signature">(options, header_class)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Create matfile header and attach data buffer</p>
+    <p>Constructs a file reader for specific file types</p>
 </div>
 
 
@@ -78,6 +82,11 @@
 
     
 
+    
+    <dt class="inherited-from">Inherited From:</dt>
+    <dd class="inherited-from"><ul class="dummy"><li>
+        <a href="BaseFileReader.html">BaseFileReader</a>
+    </li></ul></dd>
     
 
     
@@ -101,7 +110,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="matfile.js.html">matfile.js</a>, <a href="matfile.js.html#line229">line 229</a>
+        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -145,13 +154,13 @@
 
         <tr>
             
-                <td class="name"><code>buf</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>array</code></span>
+<span class="param-type"><code>object</code></span>
 
 
             
@@ -162,7 +171,36 @@
             
 
             <td class="description last">
-                <p>Data bffer</p>
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>header_class</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>BlueFileHeader</code></span>
+|
+
+<span class="param-type"><code>MatFileHeader</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
                 
             </td>
         </tr>
