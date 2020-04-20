@@ -169,14 +169,11 @@ export class BlueHeader {
    * via the dview property.
    *
    * @memberof bluefile
-   * @param {(ArrayBuffer|array)} buf
-   *   - An existing ArrayBuffer of Bluefile data.
-   * @param {Object} options
-   *     - options that affect how the bluefile is read
-   * @param {string} [options.ext_header_type="dict"]
-   *     - if the BlueFile contains extended header keywords,
-   *       extract them either as a dictionary ("dict", "json",
-   *       {}, "XMTable", "JSON", "DICT") or as a list of
+   * @param {(ArrayBuffer|array)} buf - An existing ArrayBuffer of Bluefile data.
+   * @param {object?} options - options that affect how the bluefile is read
+   * @param {string} [options.ext_header_type="dict"] - if the BlueFile contains
+   *       extended header keywords, extract them either as a dictionary
+   *       ("dict", "json", {}, "XMTable", "JSON", "DICT") or as a list of
    *       key value pairs.  The extended header keywords
    *       will be accessible on the hdr.ext_header property
    *       after the file has been read.
@@ -212,52 +209,60 @@ export class BlueHeader {
    * @property {Number} bpe - bytes per element
    * @property {Number} size - number of elements in dview
    * @property {DataView} dview - a Data
+   * @see {@link http://nextmidas.techma.com/nm/nxm/sys/docs/MidasBlueFileFormat.pdf}
    */
   constructor(buf, options) {
-    this.options = Object.assign({ ext_header_type: 'dict' }, options);
+    this.options = Object.assign({ ext_header_type: 'dict' }, options || {});
     this.buf = buf;
     if (this.buf != null) {
-      const dvhdr = new DataView(this.buf);
-      this.version = ab2str(this.buf.slice(0, 4));
-      this.headrep = ab2str(this.buf.slice(4, 8));
-      this.datarep = ab2str(this.buf.slice(8, 12));
-      const littleEndianHdr = this.headrep === 'EEEI';
-      this.littleEndianData = this.datarep === 'EEEI';
-      this.ext_start = dvhdr.getInt32(24, littleEndianHdr);
-      this.ext_size = dvhdr.getInt32(28, littleEndianHdr);
-      this.type = dvhdr.getUint32(48, littleEndianHdr);
-      this['class'] = this.type / 1000;
-      this.format = ab2str(this.buf.slice(52, 54));
-      this.timecode = dvhdr.getFloat64(56, littleEndianHdr);
-      // the adjunct starts at offset 0x100
-      if (this['class'] === 1) {
-        this.xstart = dvhdr.getFloat64(0x100, littleEndianHdr);
-        this.xdelta = dvhdr.getFloat64(0x100 + 8, littleEndianHdr);
-        this.xunits = dvhdr.getInt32(0x100 + 16, littleEndianHdr);
-        this.yunits = dvhdr.getInt32(0x100 + 40, littleEndianHdr);
-        this.subsize = 1;
-      } else if (this['class'] === 2) {
-        this.xstart = dvhdr.getFloat64(0x100, littleEndianHdr);
-        this.xdelta = dvhdr.getFloat64(0x100 + 8, littleEndianHdr);
-        this.xunits = dvhdr.getInt32(0x100 + 16, littleEndianHdr);
-        this.subsize = dvhdr.getInt32(0x100 + 20, littleEndianHdr);
-        this.ystart = dvhdr.getFloat64(0x100 + 24, littleEndianHdr);
-        this.ydelta = dvhdr.getFloat64(0x100 + 32, littleEndianHdr);
-        this.yunits = dvhdr.getInt32(0x100 + 40, littleEndianHdr);
-      }
-      this.data_start = dvhdr.getFloat64(32, littleEndianHdr);
-      this.data_size = dvhdr.getFloat64(40, littleEndianHdr);
+      // Parse the header and keywords
+      this.setHeader();
       const ds = this.data_start;
       const de = this.data_start + this.data_size;
-      if (this.ext_size) {
-        this.ext_header = this.unpack_keywords(
-          this.buf,
-          this.ext_size,
-          this.ext_start * 512,
-          littleEndianHdr
-        );
-      }
+
+      // Parse the data
       this.setData(this.buf, ds, de, this.littleEndianData);
+    }
+  }
+
+  setHeader() {
+    const dvhdr = new DataView(this.buf);
+    this.version = ab2str(this.buf.slice(0, 4));
+    this.headrep = ab2str(this.buf.slice(4, 8));
+    this.datarep = ab2str(this.buf.slice(8, 12));
+    const littleEndianHdr = this.headrep === 'EEEI';
+    this.littleEndianData = this.datarep === 'EEEI';
+    this.ext_start = dvhdr.getInt32(24, littleEndianHdr);
+    this.ext_size = dvhdr.getInt32(28, littleEndianHdr);
+    this.type = dvhdr.getUint32(48, littleEndianHdr);
+    this['class'] = this.type / 1000;
+    this.format = ab2str(this.buf.slice(52, 54));
+    this.timecode = dvhdr.getFloat64(56, littleEndianHdr);
+    // the adjunct starts at offset 0x100
+    if (this['class'] === 1) {
+      this.xstart = dvhdr.getFloat64(0x100, littleEndianHdr);
+      this.xdelta = dvhdr.getFloat64(0x100 + 8, littleEndianHdr);
+      this.xunits = dvhdr.getInt32(0x100 + 16, littleEndianHdr);
+      this.yunits = dvhdr.getInt32(0x100 + 40, littleEndianHdr);
+      this.subsize = 1;
+    } else if (this['class'] === 2) {
+      this.xstart = dvhdr.getFloat64(0x100, littleEndianHdr);
+      this.xdelta = dvhdr.getFloat64(0x100 + 8, littleEndianHdr);
+      this.xunits = dvhdr.getInt32(0x100 + 16, littleEndianHdr);
+      this.subsize = dvhdr.getInt32(0x100 + 20, littleEndianHdr);
+      this.ystart = dvhdr.getFloat64(0x100 + 24, littleEndianHdr);
+      this.ydelta = dvhdr.getFloat64(0x100 + 32, littleEndianHdr);
+      this.yunits = dvhdr.getInt32(0x100 + 40, littleEndianHdr);
+    }
+    this.data_start = dvhdr.getFloat64(32, littleEndianHdr);
+    this.data_size = dvhdr.getFloat64(40, littleEndianHdr);
+    if (this.ext_size) {
+      this.ext_header = this.unpack_keywords(
+        this.buf,
+        this.ext_size,
+        this.ext_start * 512,
+        littleEndianHdr
+      );
     }
   }
 
@@ -269,41 +274,40 @@ export class BlueHeader {
    * @param {(ArrayBuffer|array)} buf
    * @param {number} offset
    * @param {number} data_end
-   * @param {boolean} littleEndian
+   * @param {boolean?} littleEndian
    */
   setData(buf, offset, data_end, littleEndian) {
-    if (this['class'] === 1) {
-      this.spa = BlueHeader._SPA[this.format[0]];
-      this.bps = BlueHeader._BPS[this.format[1]];
-      this.bpa = this.spa * this.bps;
-      this.ape = 1;
-      this.bpe = this.ape * this.bpa;
-    } else if (this['class'] === 2) {
-      this.spa = BlueHeader._SPA[this.format[0]];
-      this.bps = BlueHeader._BPS[this.format[1]];
-      this.bpa = this.spa * this.bps;
-      this.ape = this.subsize;
-      this.bpe = this.ape * this.bpa;
-    }
     if (littleEndian === undefined) {
       littleEndian = BlueHeader.ARRAY_BUFFER_ENDIANNESS === 'LE';
     }
+
+    this.spa = BlueHeader._SPA[this.format[0]];
+    this.bps = BlueHeader._BPS[this.format[1]];
+    this.bpa = this.spa * this.bps;
+
+    // atoms per element (ape) differs between
+    // type 1000 and type 2000
+    if (this['class'] === 1) {
+      this.ape = 1;
+    } else if (this['class'] === 2) {
+      this.ape = this.subsize;
+    }
+
+    this.bpe = this.ape * this.bpa;
+
     // TODO handle mismatch between host and data endianness using arrayBufferEndianness
-    if (BlueHeader.ARRAY_BUFFER_ENDIANNESS === 'LE' && !littleEndian) {
-      throw `Not supported ${BlueHeader.ARRAY_BUFFER_ENDIANNESS} ${littleEndian}`;
-    } else if (
-      BlueHeader.ARRAY_BUFFER_ENDIANNESS === 'BE' &&
-      this.littleEndianData
+    const arrayBufferLittleEndian = BlueHeader.ARRAY_BUFFER_ENDIANNESS === 'LE';
+    const arrayBufferBigEndian = BlueHeader.ARRAY_BUFFER_ENDIANNESS === 'BE';
+    if (
+      (arrayBufferLittleEndian && !littleEndian) ||
+      (arrayBufferBigEndian && this.littleEndianData)
     ) {
       throw `Not supported ${BlueHeader.ARRAY_BUFFER_ENDIANNESS} ${littleEndian}`;
     }
     if (buf) {
       if (offset && data_end) {
-        this.dview = this.createArray(
-          buf,
-          offset,
-          (data_end - offset) / this.bps
-        );
+        const length = (data_end - offset) / this.bps;
+        this.dview = this.createArray(buf, offset, length);
       } else {
         this.dview = this.createArray(buf);
       }
@@ -320,11 +324,11 @@ export class BlueHeader {
    *
    * @author Sean Sullivan https://github.com/desean1625
    * @memberOf BlueHeader
-   * @param buf
-   * @param lbuf
-   * @param offset
-   * @param littleEndian
-   * @return {object}
+   * @param {ArrayBuffer} buf - Buffer where the keywords are located
+   * @param {number} lbuf - Size of the extended header
+   * @param {number} offset - Offset from the extended header
+   * @param {boolean} littleEndian - Whether or not to parse as little endian
+   * @return {object|Array} Parsed keywords as an object from the header
    */
   unpack_keywords(buf, lbuf, offset, littleEndian) {
     let lkey, lextra, ltag, format, tag, data, ldata, itag, idata;
@@ -346,30 +350,25 @@ export class BlueHeader {
       tag = buf.slice(itag, itag + ltag);
       if (format === 'A') {
         data = buf.slice(idata, idata + ldata);
-      } else {
-        if (BlueHeader._XM_TO_DATAVIEW[format]) {
-          if (typeof BlueHeader._XM_TO_DATAVIEW[format] === 'string') {
-            data = dvhdr[BlueHeader._XM_TO_DATAVIEW[format]](
-              idata,
-              littleEndian
-            );
-          } else {
-            data = BlueHeader._XM_TO_DATAVIEW[format](
-              dvhdr,
-              idata,
-              littleEndian
-            );
-          }
+      } else if (BlueHeader._XM_TO_DATAVIEW[format]) {
+        let parseFunc = BlueHeader._XM_TO_DATAVIEW[format];
+        if (typeof parseFunc === 'string') {
+          data = dvhdr[parseFunc](idata, littleEndian);
         } else {
-          // Should never get here now.
-          console.error(`Unsupported keyword format ${format} for tag ${tag}`);
+          data = parseFunc(dvhdr, idata, littleEndian);
         }
+      } else {
+        // Should never get here.
+        throw `Unsupported keyword format ${format} for tag ${tag}`;
       }
+
       if (typeof dic_index[tag] === 'undefined') {
         dic_index[tag] = 1;
       } else {
         dic_index[tag]++;
-        tag = '' + tag + dic_index[tag]; //Force to string just incase the tag is interpreted as a number
+
+        // Force to string just in case the tag is interpreted as a number
+        tag = '' + tag + dic_index[tag];
       }
       dict_keywords[tag] = data;
       keywords.push({
@@ -445,7 +444,7 @@ export class BlueFileReader extends BaseFileReader {
    * Bluefile Reader constructor.
    *
    * @memberof bluefile
-   * @param {Object} options - options that affect how the bluefile is read
+   * @param {object?} options - options that affect how the bluefile is read
    * @param {string} options.ext_header_type="dict"
    *       if the BlueFile contains extended header keywords,
    *       extract them either as a dictionary ("dict", "json",
