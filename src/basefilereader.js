@@ -1,6 +1,15 @@
 import { parseURL, text2buffer } from './util';
 
+/**
+ * Abstract class that should be extended
+ */
 export class BaseFileReader {
+  /**
+   * Constructs a file reader for specific file types
+   *
+   * @param {object} options
+   * @param {BlueFileHeader|MatFileHeader} header_class
+   */
   constructor(options, header_class) {
     this.options = options;
     this.header_class = header_class;
@@ -9,11 +18,11 @@ export class BaseFileReader {
   /**
    * Internal method that will read a file or stop at the header
    *
-   * @memberof basefilereader
    * @private
-   * @param {File} theFile  a File object for the {blue|mat}file
-   * @param {function} onload   callback when the header has been read
-   * @param {boolean} justHeader  Whether or not to only read the header
+   * @memberof BaseFileReader
+   * @param {File} theFile - a File object for the Bluefile or Matfile
+   * @param {function} onload - callback when the header has been read
+   * @param {boolean} justHeader - Whether or not to only read the header
    */
   _read(theFile, onload, justHeader) {
     const that = this;
@@ -21,6 +30,7 @@ export class BaseFileReader {
 
     // Note: webkitSlice is Chrome specific and deprecated now.
     // For some backwards-compatibility, we'll continue to support it.
+    // In a future version, this will just use `File.slice`.
     const sliceMethod =
       theFile.webkitSlice === undefined ? 'slice' : 'webkitSlice';
     const blob = justHeader ? theFile[sliceMethod](0, 512) : theFile;
@@ -45,31 +55,31 @@ export class BaseFileReader {
   /**
    * Read only the header from a local {Blue,Mat}file.
    *
-   * @memberof basefilereader
-   * @param {File} theFile  a File object for the {blue|mat}file
-   * @param {function} onload   callback when the header has been read
+   * @memberof BaseFileReader
+   * @param {File} theFile - a File object for the Bluefile or Matfile
+   * @param {function} onload - callback when the header has been read
    */
   readheader(theFile, onload) {
     this._read(theFile, onload, true);
   }
 
   /**
-   * Read a local {Blue,Mat}file on disk.
+   * Read a local Bluefile or Matfile on disk.
    *
-   * @memberof basefilereader
-   * @param {File} theFile  a File object for the {blue|mat}file
-   * @param {function} onload   callback when the header has been read
+   * @memberof BaseFileReader
+   * @param {File} theFile - a File object for the Bluefile or Matfile
+   * @param {function} onload - callback when the file has been read
    */
   read(theFile, onload) {
     this._read(theFile, onload, false);
   }
 
   /**
-   * Read a {Blue|Mat}file from a URL
+   * Read a Bluefile or Matfile from a URL
    *
-   * @memberof basefilereader
-   * @param {string} href   the URL for the {blue|mat}file
-   * @param {function} onload   callback when the header has been read
+   * @memberof BaseFileReader
+   * @param {string} href - the URL for the Bluefile or Matfile
+   * @param {function} onload - callback when the header has been read
    */
   read_http(href, onload) {
     const that = this;
@@ -78,7 +88,6 @@ export class BaseFileReader {
     oReq.responseType = 'arraybuffer';
     oReq.overrideMimeType('text/plain; charset=x-user-defined');
     oReq.onload = function (_oEvent) {
-      // eslint-disable-line no-unused-vars
       if (oReq.readyState === 4) {
         if (oReq.status === 200 || oReq.status === 0) {
           // status = 0 is necessary for file URL

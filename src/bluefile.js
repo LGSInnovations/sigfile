@@ -437,12 +437,15 @@ export class BlueHeader {
   }
 }
 
+/**
+ * @extends BaseFileReader
+ */
 export class BlueFileReader extends BaseFileReader {
   /**
    * Bluefile Reader constructor.
    *
    * @memberof bluefile
-   * @param {Object} options  options that affect how the bluefile is read
+   * @param {Object} options - options that affect how the bluefile is read
    * @param {string} options.ext_header_type="dict"
    *       if the BlueFile contains extended header keywords,
    *       extract them either as a dictionary ("dict", "json",

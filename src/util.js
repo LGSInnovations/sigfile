@@ -1,10 +1,20 @@
 /**
+ * @namespace util
+ */
+
+/**
  * Returns the endianness of the browser
  *
- * Source: https://gist.github.com/TooTallNate/4750953
+ * @example
+ * // returns true
+ * const whichEndian = endianness();
+ * whichEndian === "LE"
  *
  * @memberof util
  * @private
+ * @returns {string} "LE" for Little Endian and "BE" for Big Endian
+ * @throws {Error} Throws Error if endianness is unknown
+ * @see {@link https://gist.github.com/TooTallNate/4750953}
  */
 function endianness() {
   const b = new ArrayBuffer(4);
@@ -29,10 +39,16 @@ function endianness() {
  *
  * @deprecated since v0.1.4
  *
+ * @example <caption>Update object</caption>
+ * // returns {a: 1, b: 2, c: 1, d: 3}
+ * const d1 = {a: 1, b: 2};
+ * const d2 = {c: 1, d: 3};
+ * update(d1, d2) // d1 is now `{a: 1, b: 2, c: 1, d: 3}`
+ *
  * @memberOf util
- * @param {object} dst  The object that will be updated
- * @param {object} src  The object whose properties will be added to `dst`
- * @returns {object}    The updated `dst`
+ * @param {object} dst - The object that will be updated
+ * @param {object} src - The object whose properties will be added to `dst`
+ * @returns {object} The updated `dst`. This is only returned for chaining.
  */
 function update(dst, src) {
   for (let prop in src) {
@@ -57,9 +73,9 @@ function update(dst, src) {
  * the requested offset.
  *
  * @memberOf util
- * @param {DataView} dataView  Data buffer
- * @param {number} index  The byte offset into the data buffer
- * @param {boolean} littleEndian  The endianness of the data
+ * @param {DataView} dataView - Data buffer
+ * @param {number} index - The byte offset into the data buffer
+ * @param {boolean} littleEndian - The endianness of the data
  * @returns {number} The 64-bit integer from the `dataView`
  */
 function getInt64(dataView, index, littleEndian) {
@@ -79,6 +95,10 @@ function getInt64(dataView, index, littleEndian) {
 /**
  * Determine whether `String.fromCharCode.apply` supports
  * typed arrays as input.
+ *
+ * @example
+ * // returns true
+ * applySupportsTypedArray()
  *
  * @memberOf util
  * @returns {boolean} Whether `String.fromCharCode.apply` supports typed arrays
@@ -104,9 +124,9 @@ function applySupportsTypedArray() {
  * Convert an ArrayBuffer to a string
  *
  * @memberOf util
- * @param   {ArrayBuffer | Array} buf Data buffer
- * @param   {boolean} [apply=undefined] whether or not apply supports typed arrays
- * @returns {string}  The string representation of the data buffer
+ * @param   {ArrayBuffer | Array} buf - Data buffer
+ * @param   {boolean} [apply=undefined] - whether or not apply supports typed arrays
+ * @returns {string} The string representation of the data buffer
  */
 function ab2str(buf, apply) {
   const uintbuf = new Uint8Array(buf);
@@ -133,7 +153,7 @@ function ab2str(buf, apply) {
  * Convert a string to an ArrayBuffer
  *
  * @memberOf util
- * @param {string} str  The string being turning into an ArrayBuffer
+ * @param {string} str - The string being turning into an ArrayBuffer
  * @returns {ArrayBuffer} The ArrayBuffer representation of the string
  */
 function str2ab(str) {
@@ -150,9 +170,12 @@ function str2ab(str) {
  *
  * If 31 > n >= 0 then a left-shift is used, otherwise Math.pow is used.
  *
+ * @example
+ * const result = pow2(5); // == 32
+ *
  * @memberOf util
- * @param {number} n  The exponent that we're raising 2 to -- i.e., 2^n
- * @returns {number}  The result of 2^n
+ * @param {number} n - The exponent that we're raising 2 to -- i.e., 2^n
+ * @returns {number} The result of 2^n
  */
 function pow2(n) {
   return n >= 0 && n < 31 ? 1 << n : pow2[n] || (pow2[n] = Math.pow(2, n));
@@ -164,10 +187,10 @@ function pow2(n) {
  * operations are used (to normalize results across browsers).
  *
  * @memberOf util
- * @param   {string} url  Properly formatted URL
- * @returns {object}  Object containing URL pieces parsed out
+ * @param   {string} url - Properly formatted URL
+ * @returns {object} Object containing URL pieces parsed out
  *
- * @see http://james.padolsey.com/javascript/parsing-urls-with-the-dom/
+ * @see {@link http://james.padolsey.com/javascript/parsing-urls-with-the-dom/}
  */
 function parseURL(url) {
   const a = document.createElement('a');
@@ -200,13 +223,19 @@ function parseURL(url) {
 }
 
 /**
+ * @callback onComplete
+ * @param {ArrayBuffer} x - Callback for when text from HTTP response
+ *                          has been converted into an ArrayBuffer
+ */
+
+/**
  * Internal method to convert text from an HTTP response
  * into an ArrayBuffer.
  *
  * @memberOf util
- * @param {string}  text  Text from HTTP response being converted
- * @param {function}  oncomplete  Callback that will run after text is converted
- * @param {number}  [blocksize=1024]  How much data we're expecting
+ * @param {string} text - Text from HTTP response being converted
+ * @param {onComplete} oncomplete - Callback that will run after text is converted
+ * @param {number} [blocksize=1024] How much data we're expecting
  */
 function text2buffer(text, oncomplete, blocksize) {
   blocksize = blocksize || 1024;
