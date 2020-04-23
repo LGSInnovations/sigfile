@@ -38,17 +38,67 @@
   ],
   "babel": {
     "presets": [
-      "@babel/preset-env"
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties"
     ]
   },
-  "jest": {
-    "coverageDirectory": "./coverage/",
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.js"
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "es2017": true,
+      "jest": true
+    },
+    "globals": {
+      "page": true,
+      "browser": true,
+      "context": true,
+      "jestPuppeteer": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 9,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "jest"
+    ],
+    "rules": {
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ]
+    }
+  },
+  "prettier": {
+    "overrides": [
+      {
+        "files": [
+          "webpack.config.js",
+          "src/**/*.js",
+          "__tests__/**/*.js"
+        ],
+        "options": {
+          "singleQuote": true,
+          "tabWidth": 2
+        }
+      }
     ]
   },
   "scripts": {
@@ -61,7 +111,9 @@
     "lint": "npm run prettier && npm run eslint",
     "prettier": "npx prettier --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
     "prettier:check": "npx prettier --check --ignore-path .gitignore --write \"**/*{.js,.css,.json}\"",
-    "test": "npx jest --coverage"
+    "test:browser": "npx jest --coverage -c jest.browser.config.js --env=jsdom",
+    "test:node": "npx jest --coverage -c jest.node.config.js",
+    "test": "npm run test:node && npm run test:browser"
   },
   "dependencies": {},
   "devDependencies": {
@@ -76,11 +128,14 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-jest": "^23.8.2",
+    "http-server": "^0.12.1",
     "jest": "^25.3.0",
     "jest-cli": "^25.3.0",
+    "jest-puppeteer": "^4.4.0",
     "jsdoc": "^3.6.4",
     "minami": "^1.2.3",
     "prettier": "^2.0.4",
+    "puppeteer": "^3.0.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   }
