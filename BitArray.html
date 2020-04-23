@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>BaseFileReader - Documentation</title>
+    <title>BitArray - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">BaseFileReader</h1>
+    <h1 class="page-title">BitArray</h1>
     
 
     
@@ -42,10 +42,11 @@
 <header>
     
         <h2>
-        BaseFileReader
+        BitArray
         </h2>
         
-            <div class="class-description"><p>Abstract class that should be extended</p></div>
+            <div class="class-description"><p>BitArray class implementing the JS <code>TypedArray</code> interface
+for a binary array.</p></div>
         
     
 </header>
@@ -60,14 +61,16 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="BaseFileReader"><span class="type-signature"></span>new BaseFileReader<span class="signature">(header_class, options)</span><span class="type-signature"> &rarr; {<a href="BaseFileReader.html">BaseFileReader</a>}</span></h4>
+    <h4 class="name" id="BitArray"><span class="type-signature"></span>new BitArray<span class="signature">(buf)</span><span class="type-signature"> &rarr; {<a href="BitArray.html">BitArray</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Constructs a file reader for specific file types</p>
+    <p>Constructor for <code>BitArray</code></p>
+<p>This allows you to provide either an <code>ArrayBuffer</code> with pre-existing
+data or a requested bit-size of the BitArray.</p>
 </div>
 
 
@@ -103,7 +106,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line14">line 14</a>
+        <a href="bitarray.js.html">bitarray.js</a>, <a href="bitarray.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -147,16 +150,16 @@
 
         <tr>
             
-                <td class="name"><code>header_class</code></td>
+                <td class="name"><code>buf</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>BlueFileHeader</code></span>
+<span class="param-type"><code>ArrayBuffer</code></span>
 |
 
-<span class="param-type"><code>MatFileHeader</code></span>
+<span class="param-type"><code>number</code></span>
 
 
             
@@ -167,33 +170,8 @@
             
 
             <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>object</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
+                <p>Either an existing buffer containing data
+or a number indicating the size of the BitArray</p>
                 
             </td>
         </tr>
@@ -226,7 +204,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><code><a href="BaseFileReader.html">BaseFileReader</a></code></span>
+<span class="param-type"><code><a href="BitArray.html">BitArray</a></code></span>
 
 
     </dd>
@@ -238,6 +216,20 @@
 
 
 
+<div class="section-examples">
+<h5>Examples</h5>
+
+        <p class="code-caption">Setting up BitArray with requested number of bits</p>
+    
+    <pre class="prettyprint"><code>const arr = new BitArray(32);</code></pre>
+
+        <p class="code-caption">Setting up BitArray from another ArrayBuffer</p>
+    
+    <pre class="prettyprint"><code>const u8_arr = new Uint8Array([255, 230]);
+const arr = new BitArray(u8_arr.buffer);</code></pre>
+
+</div>
+
 </div>
     
     </div>
@@ -247,11 +239,96 @@
     
 
     
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="BitArray.html">BitArray</a></dt>
+            <dd></dd>
+        </dl>
+    
 
      
 
     
 
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="length"><span class="type-signature"></span>length<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>Size of <code>BitArray</code></p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="bitarray.js.html">bitarray.js</a>, <a href="bitarray.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+        <p class="code-caption">Getting the length of BitArray</p>
+    
+    <pre class="prettyprint"><code>// returns 16
+const u8_arr = new Uint8Array([255, 0]);
+const arr = new BitArray(u8_arr.buffer);
+arr.length</code></pre>
+
+
+</div>
+
+        
     
 
     
@@ -263,14 +340,14 @@
 
     
 
-    <h4 class="name" id="_read"><span class="type-signature">(private) </span>_read<span class="signature">(theFile, onload, justHeader)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getBit"><span class="type-signature"></span>getBit<span class="signature">(idx)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Internal method that will read a file or stop at the header</p>
+    <p>Get the bit (0 or 1) at bit index <code>idx</code></p>
 </div>
 
 
@@ -306,7 +383,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line28">line 28</a>
+        <a href="bitarray.js.html">bitarray.js</a>, <a href="bitarray.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -350,13 +427,13 @@
 
         <tr>
             
-                <td class="name"><code>theFile</code></td>
+                <td class="name"><code>idx</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>File</code></span>
+<span class="param-type"><code>number</code></span>
 
 
             
@@ -367,59 +444,7 @@
             
 
             <td class="description last">
-                <p>a File object for the Bluefile or Matfile</p>
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>onload</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>function</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>callback when the header has been read</p>
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>justHeader</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>boolean</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>Whether or not to only read the header</p>
+                <p>Bit index</p>
                 
             </td>
         </tr>
@@ -441,7 +466,51 @@
 
 
 
+<div class="section-returns">
+<h5>Returns:</h5>
 
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>number</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    <p>0 or 1 depending on if bit at <code>idx</code> is set</p>
+</div>
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Examples</h5>
+
+        <p class="code-caption">Getting a bit at index 0 with getBit</p>
+    
+    <pre class="prettyprint"><code>// returns 1
+const u8_arr = new Uint8Array([255, 0]);
+const arr = new BitArray(u8_arr.buffer);
+arr.getBit(0)</code></pre>
+
+        <p class="code-caption">Getting a bit at index 0 with []</p>
+    
+    <pre class="prettyprint"><code>// returns 1
+const u8_arr = new Uint8Array([255, 0]);
+const arr = new BitArray(u8_arr.buffer);
+arr[0]</code></pre>
+
+</div>
 
 </div>
         
@@ -450,14 +519,14 @@
 
     
 
-    <h4 class="name" id="read"><span class="type-signature"></span>read<span class="signature">(theFile, onload)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setArray"><span class="type-signature"></span>setArray<span class="signature">(array)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Read a local Bluefile or Matfile on disk.</p>
+    <p>Set the BitArray to <code>array</code></p>
 </div>
 
 
@@ -493,7 +562,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line74">line 74</a>
+        <a href="bitarray.js.html">bitarray.js</a>, <a href="bitarray.js.html#line118">line 118</a>
     </li></ul></dd>
     
 
@@ -537,13 +606,19 @@
 
         <tr>
             
-                <td class="name"><code>theFile</code></td>
+                <td class="name"><code>array</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>File</code></span>
+<span class="param-type"><code>ArrayLike</code></span>
+|
+
+<span class="param-type"><code>Array.&lt;number></code></span>
+|
+
+<span class="param-type"><code><a href="BitArray.html">BitArray</a></code></span>
 
 
             
@@ -554,33 +629,7 @@
             
 
             <td class="description last">
-                <p>a File object for the Bluefile or Matfile</p>
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>onload</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><code>function</code></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                <p>callback when the file has been read</p>
+                <p>An array of binary data</p>
                 
             </td>
         </tr>
@@ -603,6 +652,16 @@
 
 
 
+
+<div class="section-examples">
+<h5>Example</h5>
+
+        <p class="code-caption">Set the BitArray to another binary array</p>
+    
+    <pre class="prettyprint"><code>const arr = new BitArray(4);
+arr.setArray([1, 0, 0, 0);</code></pre>
+
+</div>
 
 </div>
         
@@ -611,14 +670,16 @@
 
     
 
-    <h4 class="name" id="read_http"><span class="type-signature"></span>read_http<span class="signature">(href, onload)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setBit"><span class="type-signature"></span>setBit<span class="signature">(idx, val<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Read a Bluefile or Matfile from a URL</p>
+    <p>Set the bit at bit index <code>idx</code></p>
+<p>Note: Non-zero <code>val</code> will set the bit to 1. 0 or undefined
+<code>val</code> will set the bit to 0.</p>
 </div>
 
 
@@ -654,7 +715,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line85">line 85</a>
+        <a href="bitarray.js.html">bitarray.js</a>, <a href="bitarray.js.html#line99">line 99</a>
     </li></ul></dd>
     
 
@@ -686,6 +747,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -698,24 +761,32 @@
 
         <tr>
             
-                <td class="name"><code>href</code></td>
+                <td class="name"><code>idx</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>string</code></span>
+<span class="param-type"><code>number</code></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">
-                <p>the URL for the Bluefile or Matfile</p>
+                <p>Bit index to set bit</p>
                 
             </td>
         </tr>
@@ -724,24 +795,34 @@
 
         <tr>
             
-                <td class="name"><code>onload</code></td>
+                <td class="name"><code>val</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>function</code></span>
+<span class="param-type"><code>number</code></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">
-                <p>callback when the header has been read</p>
+                <p>Value of bit to set (0 or 1)</p>
                 
             </td>
         </tr>
@@ -764,6 +845,17 @@
 
 
 
+
+<div class="section-examples">
+<h5>Example</h5>
+
+        <p class="code-caption">Set the bit at index 0 to 1</p>
+    
+    <pre class="prettyprint"><code>const u8_arr = new Uint8Array([255, 0]);
+const arr = new BitArray(u8_arr.buffer);
+arr.setBit(0, 1);</code></pre>
+
+</div>
 
 </div>
         
@@ -772,14 +864,16 @@
 
     
 
-    <h4 class="name" id="readheader"><span class="type-signature"></span>readheader<span class="signature">(theFile, onload)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="subarray"><span class="type-signature"></span>subarray<span class="signature">(start<span class="signature-attributes">nullable</span>, stop<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {Array.&lt;number>}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Read only the header from a local {Blue,Mat}file.</p>
+    <p>Returns the binary array from [start, stop)</p>
+<p>Note: if <code>start</code> and <code>stop</code> aren't provided,
+this will return the entire array from [0, array.length].</p>
 </div>
 
 
@@ -815,7 +909,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="basefilereader.js.html">basefilereader.js</a>, <a href="basefilereader.js.html#line63">line 63</a>
+        <a href="bitarray.js.html">bitarray.js</a>, <a href="bitarray.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -847,6 +941,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -859,24 +955,34 @@
 
         <tr>
             
-                <td class="name"><code>theFile</code></td>
+                <td class="name"><code>start</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>File</code></span>
+<span class="param-type"><code>number</code></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">
-                <p>a File object for the Bluefile or Matfile</p>
+                <p>Start bit index</p>
                 
             </td>
         </tr>
@@ -885,24 +991,34 @@
 
         <tr>
             
-                <td class="name"><code>onload</code></td>
+                <td class="name"><code>stop</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>function</code></span>
+<span class="param-type"><code>number</code></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">
-                <p>callback when the header has been read</p>
+                <p>Stop bit index</p>
                 
             </td>
         </tr>
@@ -924,7 +1040,44 @@
 
 
 
+<div class="section-returns">
+<h5>Returns:</h5>
 
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Array.&lt;number></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    <p>Binary array in [<code>start</code>, <code>stop</code>)</p>
+</div>
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Example</h5>
+
+        <p class="code-caption">Get the subarray from 0 to 4</p>
+    
+    <pre class="prettyprint"><code>// returns [1, 1, 1, 1]
+const u8_arr = new Uint8Array([255, 0]);
+const arr = new BitArray(u8_arr);
+arr.subarray(0, 4);</code></pre>
+
+</div>
 
 </div>
         
