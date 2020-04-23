@@ -50,6 +50,17 @@ class BitArray {
   }
 
   /**
+   * Wrapper around `BitArray.setArray` to ensure further
+   * compliance to TypedArray interface.
+   *
+   * @param {ArrayLike|Array} array
+   * @see {@link setArray} for further information.
+   */
+  set(array) {
+    this.setArray(array);
+  }
+
+  /**
    * Get the bit (0 or 1) at bit index `idx`
    *
    * @example <caption>Getting a bit at index 0 with getBit</caption>

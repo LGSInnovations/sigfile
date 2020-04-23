@@ -86,6 +86,21 @@ describe('BitArray class', () => {
       expect(arr.getBit(i)).to.eql(1);
     }
   });
+  it('should set multiple bits from an input array using set', () => {
+    const buf = new Uint8Array([0, 0]);
+    const arr = new BitArray(buf.buffer);
+    const newArr = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1];
+    for (let i = 0; i < arr.length; ++i) {
+      expect(arr.getBit(i)).to.eql(0);
+    }
+    arr.set(newArr);
+    for (let i = 0; i < 8; ++i) {
+      expect(arr.getBit(i)).to.eql(0);
+    }
+    for (let i = 8; i < arr.length; ++i) {
+      expect(arr.getBit(i)).to.eql(1);
+    }
+  });
   it('should set multiple bits from an input array from empty', () => {
     const arr = new BitArray(16);
     const newArr = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1];
