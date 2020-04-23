@@ -1,3 +1,6 @@
+import * as sigplot_bitarray from 'sigplot-bitarray';
+const BA = sigplot_bitarray.BitArray;
+
 /**
  * BitArray class implementing the JS `TypedArray` interface
  * for a binary array.
@@ -23,11 +26,10 @@ class BitArray {
    */
   constructor(buf) {
     if (!(buf instanceof ArrayBuffer) && typeof buf === 'number') {
-      this.buffer = new ArrayBuffer(buf / 8);
-      this.u8 = new Uint8Array(this.buffer);
+      this.bitarray = BA.new_with_length(buf);
     } else {
       this.buffer = buf;
-      this.u8 = new Uint8Array(buf);
+      this.bitarray = BA.new_with_offset_and_length(buf, 0, buf.byteLength);
     }
     return new Proxy(this, {
       get(obj, prop) {
@@ -57,7 +59,7 @@ class BitArray {
    * @see {@link setArray} for further information.
    */
   set(array) {
-    this.setArray(array);
+    this.bitarray.setArray(array);
   }
 
   /**
@@ -80,9 +82,7 @@ class BitArray {
    * @returns {number} 0 or 1 depending on if bit at `idx` is set
    */
   getBit(idx) {
-    const v = this.u8[idx >> 3];
-    const off = idx & 0x7;
-    return (v >> (7 - off)) & 1;
+    return this.bitarray.get_bit(idx);
   }
 
   /**
@@ -98,7 +98,7 @@ class BitArray {
    * @returns {number} The size of `BitArray` in number of bits
    */
   get length() {
-    return this.u8.byteLength * 8;
+    return this.bitarray.length;
   }
 
   /**
@@ -117,12 +117,7 @@ class BitArray {
    * @param {number?} val Value of bit to set (0 or 1)
    */
   setBit(idx, val) {
-    const off = idx & 0x7;
-    if (val) {
-      this.u8[idx >> 3] |= 0x80 >> off;
-    } else {
-      this.u8[idx >> 3] &= ~(0x80 >> off);
-    }
+    this.bitarray.setBit(idx, val);
   }
 
   /**
@@ -136,12 +131,7 @@ class BitArray {
    * @param {ArrayLike|number[]|BitArray} array - An array of binary data
    */
   setArray(array) {
-    // Iterate over `array.length` in case `.forEach`
-    // hasn't been defined for `array`'s type
-    const len = array.length;
-    for (let i = 0; i < len; i++) {
-      this.setBit(i, array[i]);
-    }
+    this.bitarray.setArray(array);
   }
 
   /**
@@ -159,18 +149,10 @@ class BitArray {
    * @memberOf BitArray
    * @param {number?} start - Start bit index
    * @param {number?} stop - Stop bit index
-   * @returns {number[]} Binary array in [`start`, `stop`)
+   * @returns {Uint8Array} Binary array in [`start`, `stop`)
    */
   subarray(start, stop) {
-    let sub = [];
-    start = start || 0;
-    start = start < 0 ? 0 : start;
-    stop = stop || this.length;
-    stop = stop > this.length ? this.length : stop;
-    for (let i = start; i < stop; i++) {
-      sub.push(this.getBit(i));
-    }
-    return sub;
+    return this.bitarray.subarray(start, stop);
   }
 }
 
