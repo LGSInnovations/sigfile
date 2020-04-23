@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   update,
+  applySupportsTypedArray,
   getInt64,
   ab2str,
   str2ab,
@@ -124,6 +125,21 @@ describe('getInt64', () => {
     dataView.setInt32(4, 1337);
     const result = getInt64(dataView, 0, true);
     expect(result).to.equal(Infinity);
+  });
+});
+
+describe('applySupportsTypedArray', () => {
+  it("should return false if doesn't support", () => {
+    jest.spyOn(String.fromCharCode, 'apply').mockImplementation(() => false);
+    const result = applySupportsTypedArray();
+    expect(result).to.be.false;
+  });
+  it('should return false if error thrown', () => {
+    jest.spyOn(String.fromCharCode, 'apply').mockImplementation(() => {
+      throw 'test';
+    });
+    const result = applySupportsTypedArray();
+    expect(result).to.be.false;
   });
 });
 
