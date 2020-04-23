@@ -37,6 +37,15 @@ class BitArray {
           return obj[prop];
         }
       },
+      set(obj, prop, value) {
+        const propInt = parseInt(prop);
+        if (isNaN(propInt)) {
+          return false;
+        } else {
+          obj.setBit(prop, value);
+          return true;
+        }
+      },
     });
   }
 
