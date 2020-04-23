@@ -17,7 +17,13 @@ module.exports = [
         {
           test: /.js$/,
           include: path.resolve(__dirname, 'src'),
-          loader: 'babel-loader',
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-class-properties'],
+            },
+          },
         },
       ],
     },
@@ -38,7 +44,13 @@ module.exports = [
         {
           test: /.js$/,
           include: path.resolve(__dirname, 'src'),
-          loader: 'babel-loader',
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-class-properties'],
+            },
+          },
         },
       ],
     },
@@ -59,7 +71,13 @@ module.exports = [
         {
           test: /.js$/,
           include: path.resolve(__dirname, 'src'),
-          loader: 'babel-loader',
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-class-properties'],
+            },
+          },
         },
       ],
     },
