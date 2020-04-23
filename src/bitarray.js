@@ -2,7 +2,7 @@
  * BitArray class implementing the JS `TypedArray` interface
  * for a binary array.
  */
-export default class BitArray {
+class BitArray {
   /**
    * Constructor for `BitArray`
    *
@@ -153,3 +153,5 @@ export default class BitArray {
     return sub;
   }
 }
+
+export default BitArray;

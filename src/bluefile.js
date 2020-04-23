@@ -21,7 +21,6 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- *
  */
 import BitArray from './bitarray';
 import { BaseFileReader } from './basefilereader';
@@ -81,10 +80,8 @@ import { endianness, ab2str, getInt64 } from './util';
  * | 24     |ystart |  8   |real_8| Abscissa (row) start                 |
  * | 32     |ydelta |  8   |real_8| Increment between frames             |
  * | 36     |yunits |  4   |int_4 | Abscissa (row) unit code             |
- *
- * @namespace bluefile
  */
-export class BlueHeader {
+class BlueHeader {
   /**
    * Static member that indicates the endianness of the system,
    * BlueHeader.ARRAY_BUFFER_ENDIANNESS.
@@ -212,7 +209,10 @@ export class BlueHeader {
    * @see {@link http://nextmidas.techma.com/nm/nxm/sys/docs/MidasBlueFileFormat.pdf}
    */
   constructor(buf, options) {
-    this.options = Object.assign({ ext_header_type: 'dict' }, options || {});
+    if (options === undefined) {
+      options = {};
+    }
+    this.options = Object.assign({ ext_header_type: 'dict' }, options);
     this.buf = buf;
     if (this.buf != null) {
       // Parse the header and keywords
@@ -225,6 +225,13 @@ export class BlueHeader {
     }
   }
 
+  /**
+   * Internal method to parse the 512 byte header
+   * and unpack the extended header keywords
+   *
+   * @memberOf BlueHeader
+   * @private
+   */
   setHeader() {
     const dvhdr = new DataView(this.buf);
     this.version = ab2str(this.buf.slice(0, 4));
@@ -270,6 +277,7 @@ export class BlueHeader {
    * Internal method that sets the dview up based off the
    * provided buffer and fields extracted from the header.
    *
+   * @private
    * @memberOf BlueHeader
    * @param {(ArrayBuffer|array)} buf
    * @param {number} offset
@@ -323,6 +331,7 @@ export class BlueHeader {
    * depending on this.options.ext_header_type.
    *
    * @author Sean Sullivan https://github.com/desean1625
+   * @private
    * @memberOf BlueHeader
    * @param {ArrayBuffer} buf - Buffer where the keywords are located
    * @param {number} lbuf - Size of the extended header
@@ -378,8 +387,15 @@ export class BlueHeader {
       ii += lkey;
     }
     const dictTypes = ['dict', 'json', {}, 'XMTable', 'JSON', 'DICT'];
+    const ext_header_type = this.options.ext_header_type;
+    if (
+      Object.keys(ext_header_type).length === 0 &&
+      ext_header_type.constructor === Object
+    ) {
+      return dict_keywords;
+    }
     for (let k in dictTypes) {
-      if (dictTypes[k] === this.options.ext_header_type) {
+      if (dictTypes[k] === ext_header_type) {
         return dict_keywords;
       }
     }
@@ -391,7 +407,7 @@ export class BlueHeader {
    * format extracted from the header.
    *
    * @private
-   * @memberof bluefile
+   * @memberOf BlueHeader
    * @param buf
    * @param offset
    * @param length
@@ -439,7 +455,7 @@ export class BlueHeader {
 /**
  * @extends BaseFileReader
  */
-export class BlueFileReader extends BaseFileReader {
+class BlueFileReader extends BaseFileReader {
   /**
    * Bluefile Reader constructor.
    *
@@ -454,6 +470,8 @@ export class BlueFileReader extends BaseFileReader {
    *       after the file has been read.
    */
   constructor(options) {
-    super(options, BlueHeader);
+    super(BlueHeader, options);
   }
 }
+
+export { BlueHeader, BlueFileReader };

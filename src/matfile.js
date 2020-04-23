@@ -22,6 +22,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { BaseFileReader } from './basefilereader';
+import { endianness, ab2str, getInt64 } from './util';
+
 /**
  * MAT-files are a binary format directly supported by SigPlot.  A MAT-file consists of a 132-byte header
  * followed by binary data.
@@ -35,14 +38,8 @@
  * 126      endianness   2   char[2]
  * 128      data_offset  4   int_4
  * 132      byte_offset  4   int_4
- *
- * @namespace matfile
  */
-
-import { BaseFileReader } from './basefilereader';
-import { endianness, ab2str, getInt64 } from './util';
-
-export class MatHeader {
+class MatHeader {
   /**
    * @memberOf matfile
    * @private
@@ -223,8 +220,8 @@ export class MatHeader {
 
   /**
    * Create matfile header and attach data buffer
-   * @memberof matfile
-   * @param   {array}     buf         Data bffer
+   * @memberOf MatHeader
+   * @param {array} buf - Data bffer
    */
   constructor(buf) {
     this.file = null;
@@ -393,12 +390,12 @@ export class MatHeader {
   /**
    * Get a JS array from MATLAB array
    *
-   * @memberof matfile
-   * @param   {ArrayBuffer | Array}   buf
-   * @param   {number}  offset
-   * @param   {number}  length
-   * @param   {string}  type
+   * @memberOf MatHeader
    * @private
+   * @param {ArrayBuffer | Array} buf -
+   * @param {number} offset -
+   * @param {number} length -
+   * @param {string} type -
    */
   createArray(buf, offset, length, type) {
     // TODO: big endian implemenation
@@ -418,6 +415,15 @@ export class MatHeader {
     return new TypedArray(buf, offset, length);
   }
 
+  /**
+   *
+   * @memberOf MatHeader
+   * @param dv
+   * @param typeName
+   * @param offset
+   * @param littleEndian
+   * @returns {*}
+   */
   getDataWithType(dv, typeName, offset, littleEndian) {
     const typeFunc = MatHeader._MAT_TO_DATAVIEW[typeName];
     if (typeFunc === undefined) {
@@ -427,12 +433,12 @@ export class MatHeader {
   }
 
   /**
-   * @memberof matfile
+   *
+   * @memberOf MatHeader
    * @param   buf
    * @param   dvhdr
    * @param   currIndex
    * @param   littleEndian
-   *
    */
   setData(buf, dvhdr, currIndex, littleEndian) {
     let arrayValSize;
@@ -470,8 +476,10 @@ export class MatHeader {
   }
 }
 
-export class MatFileReader extends BaseFileReader {
+class MatFileReader extends BaseFileReader {
   constructor(options) {
     super(options, MatHeader);
   }
 }
+
+export { MatHeader, MatFileReader };

@@ -3,16 +3,17 @@ import { parseURL, text2buffer } from './util';
 /**
  * Abstract class that should be extended
  */
-export class BaseFileReader {
+class BaseFileReader {
   /**
    * Constructs a file reader for specific file types
    *
-   * @param {object} options
    * @param {BlueFileHeader|MatFileHeader} header_class
+   * @param {object} options
+   * @returns {BaseFileReader}
    */
-  constructor(options, header_class) {
-    this.options = options;
+  constructor(header_class, options) {
     this.header_class = header_class;
+    this.options = options;
   }
 
   /**
@@ -95,14 +96,12 @@ export class BaseFileReader {
           if (oReq.response) {
             arrayBuffer = oReq.response;
             const hdr = new that.header_class(arrayBuffer, that.options);
-            parseURL(href);
             const fileUrl = parseURL(href);
             hdr.file_name = fileUrl.file;
             onload(hdr);
           } else if (oReq.responseText) {
             text2buffer(oReq.responseText, function (arrayBuffer) {
               const hdr = new that.header_class(arrayBuffer, that.options);
-              parseURL(href);
               const fileUrl = parseURL(href);
               hdr.file_name = fileUrl.file;
               onload(hdr);
@@ -120,3 +119,5 @@ export class BaseFileReader {
     return oReq;
   }
 }
+
+export { BaseFileReader };
