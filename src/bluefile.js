@@ -388,7 +388,11 @@ class BlueHeader {
     }
     const dictTypes = ['dict', 'json', {}, 'XMTable', 'JSON', 'DICT'];
     const ext_header_type = this.options.ext_header_type;
+
+    // Added because {} === {} is `false` in JS
     if (
+      typeof ext_header_type === 'object' &&
+      ext_header_type !== null &&
       Object.keys(ext_header_type).length === 0 &&
       ext_header_type.constructor === Object
     ) {
