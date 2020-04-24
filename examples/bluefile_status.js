@@ -1,13 +1,13 @@
 /**
- * This is an example of using bluefile.src in a node.src context
+ * This is an example of using bluefile.js in a node.js context
  */
-const sigfile = require("sigfile");
+const { bluefile } = require("../dist/sigfile");
 const fs = require("fs");
 
 fs.readFile("../__tests__/dat/ramp.tmp", function (err, buf) {
   console.log("");
 
-  const hdr = new sigfile.BlueHeader(buf.buffer);
+  const hdr = new bluefile.BlueHeader(buf.buffer);
 
   // Print out some header information
   console.log("Number of elements      :  " + hdr.size);
