@@ -30,14 +30,14 @@ import { endianness, ab2str, getInt64 } from './util';
  * followed by binary data.
  * For more information on MAT-files, please visit https://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf
  *
- * Offset   Name        Size    Type        Description
- * -----------------------------------------------------------------------------
- * 0        header     115   char[115]     Header
- * 116      subsys       7   char[7]
- * 124      version      2   int_2
- * 126      endianness   2   char[2]
- * 128      data_offset  4   int_4
- * 132      byte_offset  4   int_4
+ * | Offset | Name        | Size |    Type    |    Description |
+ * |--------|:------------|:-----|:-----------|:---------------|
+ * | 0      | header      | 115  |  char[115] |    Header      |
+ * | 116    | subsys      |   7  |  char[7]   |                |
+ * | 124    | version     |   2  |  int_2     |                |
+ * | 126    | endianness  |   2  |  char[2]   |                |
+ * | 128    | data_offset |   4  |  int_4     |                |
+ * | 132    | byte_offset |   4  |  int_4     |                |
  */
 class MatHeader {
   /**
