@@ -22,7 +22,7 @@ yarn add sigfile
 ### Extracting the header from a Bluefile
 
 ```javascript
-const sigfile = require('sigfile');
+const bluefile = require('sigfile').bluefile;
 const fs = require('fs');
 
 fs.readFile('__tests__/dat/ramp.tmp', function(err, buf) {
@@ -35,9 +35,9 @@ or
 
 ```javascript
 import { readFile } from 'fs';
-import { BlueHeader } from 'sigfile';
+import { bluefile } from 'sigfile';
 
 readFile('__tests__/dat/ramp.tmp', (err, buf) => {
-    const header = new sigfile.BlueHeader(buf.buffer);
+    const header = new bluefile.BlueHeader(buf.buffer);
     console.log(header);
 });
