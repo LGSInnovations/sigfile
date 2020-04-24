@@ -1,6 +1,6 @@
 /**
  * @license apache-2.0
- * @file bluefile.src
+ * @file bluefile.js
  * Copyright (c) 2012-2020, LGS Innovations Inc., All rights reserved.
  *
  * This file is part of SigFile.

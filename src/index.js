@@ -1,6 +1,6 @@
 /**
  * @license
- * File: sigfile.src
+ * File: sigfile.js
  * Copyright (c) 2012-2017, LGS Innovations Inc., All rights reserved.
  *
  * This file is part of SigFile.

@@ -61,7 +61,7 @@ typings/
 # dotenv environment variables file
 .env
 
-# next.src build output
+# next.js build output
 .next
 
 # vuepress build output
