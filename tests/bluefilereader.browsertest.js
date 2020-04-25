@@ -2,7 +2,7 @@ import 'jest';
 import { expect } from 'chai';
 import { bluefile } from '../src/index';
 
-const BASE_URL = 'http://localhost:3000/__tests__/dat';
+const BASE_URL = 'http://localhost:3000/tests/dat';
 
 describe('bluefile.BlueFileReader', () => {
   beforeEach(() => {

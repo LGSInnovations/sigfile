@@ -1,6 +1,6 @@
 module.exports = {
-  testRegex: "./*\\.test|\\.nodetest\\.js$",
-  coverageDirectory: "./coverage/",
+  testRegex: './*\\.test|\\.nodetest\\.js$',
+  coverageDirectory: './coverage/',
   collectCoverage: true,
-  collectCoverageFrom: ["./src/**/*.js"],
+  collectCoverageFrom: ['./src/**/*.js'],
 };

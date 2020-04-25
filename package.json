@@ -90,9 +90,10 @@
     "overrides": [
       {
         "files": [
-          "webpack.config.js",
+          "*.js",
           "src/**/*.js",
-          "__tests__/**/*.js"
+          "tests/**/*.js",
+          "package.json"
         ],
         "options": {
           "singleQuote": true,

@@ -25,7 +25,7 @@ yarn add sigfile
 const bluefile = require('sigfile').bluefile;
 const fs = require('fs');
 
-fs.readFile('__tests__/dat/ramp.tmp', function(err, buf) {
+fs.readFile('./tests/dat/ramp.tmp', function(err, buf) {
     const header = new sigfile.BlueHeader(buf.buffer);
     console.log(header);
 });
@@ -37,7 +37,7 @@ or
 import { readFile } from 'fs';
 import { bluefile } from 'sigfile';
 
-readFile('__tests__/dat/ramp.tmp', (err, buf) => {
+readFile('./tests/dat/ramp.tmp', (err, buf) => {
     const header = new bluefile.BlueHeader(buf.buffer);
     console.log(header);
 });

@@ -1,11 +1,12 @@
-import 'jest';
 import { expect } from 'chai';
 import { readFile } from 'fs';
 import { BlueHeader } from '../src/bluefile';
 
+const DATA_DIR = './tests/dat';
+
 describe('BlueHeader', () => {
   it('should load keywords correctly from buffer', (done) => {
-    readFile('./__tests__/dat/keyword_test_file.tmp', (err, data) => {
+    readFile(`${DATA_DIR}/keyword_test_file.tmp`, (err, data) => {
       if (err) {
         done(err);
       }
@@ -38,7 +39,7 @@ describe('BlueHeader', () => {
     });
   });
   it('should load type 1000 SD data correctly from buffer', (done) => {
-    readFile('./__tests__/dat/sin.tmp', (err, data) => {
+    readFile(`${DATA_DIR}/sin.tmp`, (err, data) => {
       if (err) {
         done(err);
       }
@@ -55,7 +56,7 @@ describe('BlueHeader', () => {
     });
   });
   it('should load type 2000 SD data correctly from buffer', (done) => {
-    readFile('./__tests__/dat/penny.prm', (err, data) => {
+    readFile(`${DATA_DIR}/penny.prm`, (err, data) => {
       if (err) {
         done(err);
       }
@@ -72,7 +73,7 @@ describe('BlueHeader', () => {
     });
   });
   it('should parse scalar packed data from buffer', (done) => {
-    readFile('./__tests__/dat/scalarpacked.tmp', (err, data) => {
+    readFile(`${DATA_DIR}/scalarpacked.tmp`, (err, data) => {
       if (err) {
         done(err);
       }
@@ -114,7 +115,7 @@ describe('BlueHeader', () => {
     });
   });
   it('should parse complex float data from buffer', (done) => {
-    readFile('./__tests__/dat/pulse_cx.tmp', (err, data) => {
+    readFile(`${DATA_DIR}/pulse_cx.tmp`, (err, data) => {
       if (err) {
         done(err);
       }
@@ -148,7 +149,7 @@ describe('BlueHeader', () => {
     });
   });
   it('should parse bluefile int data from buffer', (done) => {
-    readFile('./__tests__/dat/ramp.tmp', (err, data) => {
+    readFile(`${DATA_DIR}/ramp.tmp`, (err, data) => {
       if (err) {
         done(err);
       }
