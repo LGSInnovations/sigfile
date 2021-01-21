@@ -340,55 +340,71 @@ class BlueHeader {
    * @return {object|Array} Parsed keywords as an object from the header
    */
   unpack_keywords(buf, lbuf, offset, littleEndian) {
-    let lkey, lextra, ltag, format, tag, data, ldata, itag, idata;
-    const keywords = [];
-    const dic_index = {};
-    const dict_keywords = {};
-    let ii = 0;
-    buf = buf.slice(offset, buf.byteLength);
-    const dvhdr = new DataView(buf);
+    var lkey, lextra, ltag, format, tag, data, ldata, itag, idata;
+    var keywords = [];
+    var dic_index = {};
+    var dict_keywords = {};
+    var ii = 0;
+    buf = buf.slice(offset, offset + lbuf);
+    var dvhdr = new DataView(buf);
     buf = ab2str(buf);
     while (ii < lbuf) {
       idata = ii + 8;
       lkey = dvhdr.getUint32(ii, littleEndian);
       lextra = dvhdr.getInt16(ii + 4, littleEndian);
-      ltag = dvhdr.getInt8(ii + 6);
+      ltag = dvhdr.getInt8(ii + 6, littleEndian);
       format = buf.slice(ii + 7, ii + 8);
       ldata = lkey - lextra;
       itag = idata + ldata;
       tag = buf.slice(itag, itag + ltag);
       if (format === 'A') {
         data = buf.slice(idata, idata + ldata);
-      } else if (BlueHeader._XM_TO_DATAVIEW[format]) {
-        let parseFunc = BlueHeader._XM_TO_DATAVIEW[format];
-        if (typeof parseFunc === 'string') {
-          data = dvhdr[parseFunc](idata, littleEndian);
-        } else {
-          data = parseFunc(dvhdr, idata, littleEndian);
-        }
       } else {
-        // Should never get here.
-        throw `Unsupported keyword format ${format} for tag ${tag}`;
+        if (BlueHeader._XM_TO_DATAVIEW[format]) {
+          var reader;
+          if (typeof BlueHeader._XM_TO_DATAVIEW[format] === 'string') {
+            reader = (index) => {
+              return dvhdr[BlueHeader._XM_TO_DATAVIEW[format]](
+                index,
+                littleEndian
+              );
+            };
+          } else {
+            reader = (index) => {
+              return BlueHeader._XM_TO_DATAVIEW[format](
+                dvhdr,
+                index,
+                littleEndian
+              );
+            };
+          }
+          let values = [];
+          for (let index = 0; index < ldata; index += BlueHeader._BPS[format]) {
+            values.push(reader(index + idata));
+          }
+          if (values.length === 1) {
+            data = values[0];
+          } else {
+            data = values;
+          }
+        } else {
+          window.console.info(
+            'Unsupported keyword format ' + format + ' for tag ' + tag
+          );
+        }
       }
-
       if (typeof dic_index[tag] === 'undefined') {
         dic_index[tag] = 1;
       } else {
         dic_index[tag]++;
-
-        // Force to string just in case the tag is interpreted as a number
         tag = '' + tag + dic_index[tag];
       }
       dict_keywords[tag] = data;
-      keywords.push({
-        tag: tag,
-        value: data,
-      });
+      keywords.push({ tag: tag, value: data });
       ii += lkey;
     }
-    const dictTypes = ['dict', 'json', {}, 'XMTable', 'JSON', 'DICT'];
+    var dictTypes = ['dict', 'json', {}, 'XMTable', 'JSON', 'DICT'];
     const ext_header_type = this.options.ext_header_type;
-
     // Added because {} === {} is `false` in JS
     if (
       typeof ext_header_type === 'object' &&
@@ -398,8 +414,8 @@ class BlueHeader {
     ) {
       return dict_keywords;
     }
-    for (let k in dictTypes) {
-      if (dictTypes[k] === ext_header_type) {
+    for (var k in dictTypes) {
+      if (dictTypes[k] === this.options.ext_header_type) {
         return dict_keywords;
       }
     }

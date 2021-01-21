@@ -278,6 +278,24 @@ describe('bluefile.BlueFileReader', () => {
       done();
     });
   });
+  it('should read all keywords and I_ARRAY_TEST should be an array from HTTP', (done) => {
+    const bfr = new bluefile.BlueFileReader({
+      ext_header_type: {},
+    });
+    bfr.read_http(`${BASE_URL}/keyword_int_array_test_file.tmp`, (hdr) => {
+      expect(hdr).to.not.equal(null);
+      let keywords = {
+        I_ARRAY_TEST: [1, 2, 3, 4],
+      };
+      for (let prop in keywords) {
+        expect('' + hdr.ext_header[prop]).to.equal(
+          '' + keywords[prop],
+          `prop: ${prop}`
+        );
+      }
+      done();
+    });
+  });
   it('should parse scalar packed data', (done) => {
     const bfr = new bluefile.BlueFileReader();
     bfr.read_http(`${BASE_URL}/scalarpacked.tmp`, (hdr) => {

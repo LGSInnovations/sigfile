@@ -38,6 +38,26 @@ describe('BlueHeader', () => {
       done();
     });
   });
+  it('should read all keywords and I_ARRAY_TEST should be an array', (done) => {
+    readFile(`${DATA_DIR}/keyword_int_array_test_file.tmp`, (err, data) => {
+      if (err) {
+        done(err);
+      }
+      const buf = data.buffer.slice(data.byteOffset, data.byteLength);
+      const hdr = new BlueHeader(buf, {});
+      let keywords = {
+        I_ARRAY_TEST: [1, 2, 3, 4],
+      };
+      for (let prop in keywords) {
+        expect('' + hdr.ext_header[prop]).to.equal(
+          '' + keywords[prop],
+          `prop: ${prop}`
+        );
+      }
+      done();
+    });
+  });
+
   it('should load type 1000 SD data correctly from buffer', (done) => {
     readFile(`${DATA_DIR}/sin.tmp`, (err, data) => {
       if (err) {
