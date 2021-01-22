@@ -217,32 +217,31 @@ function pow2(n) {
  * @see {@link http://james.padolsey.com/javascript/parsing-urls-with-the-dom/}
  */
 function parseURL(url) {
-  const a = document.createElement('a');
-  a.href = url;
+  var parsed;
+  if (url === '') {
+    parsed = new URL(location.href);
+  } else {
+    parsed = new URL(url);
+  }
+
   return {
     source: url,
-    protocol: a.protocol.replace(':', ''),
-    host: a.hostname,
-    port: a.port,
-    query: a.search,
+    protocol: parsed.protocol.replace(':', ''),
+    host: parsed.hostname,
+    port: parsed.port,
+    query: parsed.search,
     params: (function () {
-      const ret = {},
-        seg = a.search.replace(/^\?/, '').split('&'),
-        len = seg.length;
-      for (let i = 0; i < len; i++) {
-        if (!seg[i]) {
-          continue;
-        }
-        let s = seg[i].split('=');
-        ret[s[0]] = s[1];
-      }
+      const ret = {};
+      Array.from(parsed.searchParams.entries()).forEach(([key, value]) => {
+        ret[key] = value;
+      });
       return ret;
     })(),
-    file: (a.pathname.match(/\/([^/?#]+)$/i) || [null, ''])[1],
-    hash: a.hash.replace('#', ''),
-    path: a.pathname.replace(/^([^/])/, '/$1'),
-    relative: (a.href.match(/tps?:\/\/[^/]+(.+)/) || [null, ''])[1],
-    segments: a.pathname.replace(/^\//, '').split('/'),
+    file: (parsed.pathname.match(/\/([^/?#]+)$/i) || [null, ''])[1],
+    hash: parsed.hash.replace('#', ''),
+    path: parsed.pathname.replace(/^([^/])/, '/$1'),
+    relative: (parsed.href.match(/tps?:\/\/[^/]+(.+)/) || [null, ''])[1],
+    segments: parsed.pathname.replace(/^\//, '').split('/'),
   };
 }
 
